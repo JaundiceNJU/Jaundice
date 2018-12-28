@@ -1,0 +1,25 @@
+server:
+  port: 8888
+spring:
+  mail:
+    host: smtp.163.com
+    username: ipnet2018@163.com
+    password: ipnet2018
+    default-encoding: UTF-8
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    mode: HTML
+    cache: true
+    servlet:
+      content-type: text/html
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: mysql
+    url: jdbc:mysql://120.79.232.126:3306/jaundice?characterEncoding=UTF-8&useSSL=true

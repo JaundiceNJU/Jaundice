@@ -43,4 +43,9 @@ public class Baby {
     private String area;//出生地区
 
     private String hospital;//出生医院
+
+    public Baby(String telephone,String password){
+        this.id=telephone;
+        this.password=password;
+    }
 }

@@ -30,4 +30,12 @@ public class Measure {
 
     private String diet;//近期饮食
 
+    public Measure(String baby,double ice_lesion,double height,double weight,String diet){
+        this.baby=baby;
+        this.ice_lesion=ice_lesion;
+        this.height=height;
+        this.weight=weight;
+        this.diet=diet;
+    }
+
 }

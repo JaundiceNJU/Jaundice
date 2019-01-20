@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SignIn</title>
+    <link rel="stylesheet" type="text/css" href="css/Login.css">
+    <script src="js/jquery-3.3.1.min.js"></script>
+</head>
+<body class="background">
+    <div class="all"></div>
+    <div class="container">
+        <h1 id="title">黄疸检测云管理系统</h1>
+        <div class="input_box">
+            <input id="username" type="text" name="username" placeholder="请输入用户名">
+            <input id="password" type="password" name="password" placeholder="请输入密码">
+            <input id="login" type="submit" class="confirm" value="登录">
+        </div>
+        <div id="toRegister">
+            <a class="link" href="/register" id="toSign">没有账号，前往注册</a>
+        </div>
+    </div>
+
+    <script>
+        $("#login").click(function(){
+            var username=$("#username").val();
+            var password=$("#password").val();
+            if(username===""||password===""){
+                alert("请输入用户名和密码")
+            }else {
+                $.ajax({
+                    url: "/adminLogin",
+                    type: "POST",
+                    cache: false,
+                    async: false,
+                    data: {
+                        username: username,
+                        password: password
+                    },
+                    success: function(data){    //    alert后台返回的参数
+                        // alert(data);
+                        if(data==="SUCCESS"){
+                            // alert("即将跳转至主页");
+                            localStorage.setItem("username",username);
+                            window.location.href="/home";
+                        }else if(data==="FAIL"){
+                            alert("登录失败，请重试");
+                            window.location.href="/loginPage"
+                        }
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("错误状态码："+XMLHttpRequest.status+"\n错误信息："+textStatus+"——"+errorThrown); // 200
+                        alert("出错了，请重试")
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

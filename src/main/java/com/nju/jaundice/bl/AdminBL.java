@@ -2,6 +2,7 @@ package com.nju.jaundice.bl;
 
 import com.nju.jaundice.blservice.AdminBLService;
 import com.nju.jaundice.dao.AdminDao;
+import com.nju.jaundice.entity.Admin;
 import com.nju.jaundice.util.ResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +15,14 @@ public class AdminBL implements AdminBLService {
 
     @Override
     public ResultMessage adminLogin(String username, String password) {
-        if(null == adminDao.login(username,password)){
-            return ResultMessage.FAIL;
+        Admin admin=adminDao.find(username);
+        if(admin == null){
+            return ResultMessage.NOTEXIST;
         }
-        return ResultMessage.SUCCESS;
+        if(admin.getPassword().equals(password)){
+            return ResultMessage.SUCCESS;
+        }else {
+            return ResultMessage.PASSERROR;
+        }
     }
 }

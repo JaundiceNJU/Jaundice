@@ -1,0 +1,66 @@
+.background{
+    margin: 0;
+    padding: 0;
+}
+.all{
+    background: url('../images/loginBck.jpg') no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+.container{
+    width: 39%;
+    height: 32vw;
+    border: solid rgba(0,0,0,0.5);
+    border-radius: 20px;
+    margin-left: 30%;
+    margin-top:10%;
+    text-align: center;
+    position: absolute;
+}
+#title{
+    font-size: 4vw;
+    color: rgba(0,0,0,0.8);
+    font-family: 华文楷体,fantasy;
+    text-align: center;
+    padding-top: auto;
+}
+#username,#password,#confirmBox{
+    width: 70%;
+    height: 2.5vw;
+    border-radius: 8px;
+    border: solid rgba(0,0,0,0.5);
+    background-color: rgba(255,255,255,0);
+    margin-bottom: 5%;
+    text-align: left;
+    font-size: 1.5vw;
+    outline: none;
+    color: black;
+}
+#login{
+    outline: none;
+    border-radius: 10px;
+    border: solid 2px rgba(0, 0, 0, 0.5);
+    width: 30%;
+    height: 3vw;
+    margin-top: 3%;
+    background-color: rgba(255,255,255,0);
+    font-size: 2vw;
+    font-style: normal;
+    font-family: 华文楷体,fantasy ;
+    font-weight: bold;
+    color: rgba(0,0,0,1);
+}
+
+#login:hover{
+    background-color: rgba(255,255,255,0.3);
+}
+.link{
+    font-family: 华文楷体,fantasy;
+    font-size: 1.5vw;
+    position: absolute;
+}
+.link:hover {/* 鼠标移动到链接上 */
+    color:white;
+}

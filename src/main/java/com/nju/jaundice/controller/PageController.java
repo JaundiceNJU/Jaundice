@@ -11,4 +11,9 @@ public class PageController {
     public String getIntroducePage(){
         return "Jaundice";
     }
+
+    @RequestMapping(value = "/home",method = RequestMethod.GET)
+    public String getHomePage(){
+        return "Home";
+    }
 }

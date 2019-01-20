@@ -8,16 +8,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@Controller(value = "/admin")
+@Controller
 public class AdminController {
 
     @Autowired
     private AdminBLService adminBLService;
 
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @RequestMapping(value = "/adminLogin",method = RequestMethod.POST)
     public @ResponseBody
     ResultMessage adminLogin(String username,String password){
+        System.out.println("username:"+username+", password:"+password);
         return adminBLService.adminLogin(username,password);
+    }
+
+    @RequestMapping(value = "/loginPage",method = RequestMethod.GET)
+    public String adminLoginPage(){
+        return "Login";
     }
 
 }

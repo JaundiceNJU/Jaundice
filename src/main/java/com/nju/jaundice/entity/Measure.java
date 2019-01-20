@@ -15,8 +15,8 @@ import java.util.Date;
 public class Measure {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private int id;
 
     private String baby;//测量的婴儿的ID
 

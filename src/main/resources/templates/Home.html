@@ -3,8 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<h1>主页面</h1>
+<div>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin:0;font-size: 23px;font-family: 华文楷体, serif;">
+        <div class="container-fluid">
+            <div class="navbar-header" style="margin-right: 40px;">
+                <a class="navbar-brand" href="#" style="font-size: 30px;color: rgba(0,0,0,1)">黄疸检测云管理系统</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">首页</a></li>
+                    <li><a href="#">用户列表</a></li>
+                    <li><a href="#">数据列表</a></li>
+                    <li><a href="#">数据统计</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a id="title-username" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            管理员
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" style="font-size: 18px;min-width: 115px;text-align: center;">
+                            <li id="logout" style="cursor: pointer" onclick=""><a>登出</a></li>
+                            <li><a href="#">修改密码</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<script>
+</script>
 </body>
 </html>

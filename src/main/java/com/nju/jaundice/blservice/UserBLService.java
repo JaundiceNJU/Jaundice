@@ -1,10 +1,13 @@
 package com.nju.jaundice.blservice;
 
+import com.nju.jaundice.entity.Baby;
 import com.nju.jaundice.util.Blood;
 import com.nju.jaundice.util.ResultMessage;
 import com.nju.jaundice.util.Role;
 import com.nju.jaundice.util.Sex;
+import com.nju.jaundice.vo.BabyVO;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public interface UserBLService {
@@ -42,4 +45,11 @@ public interface UserBLService {
      */
     ResultMessage completeInfo(String telephone, Role parent, String nickname, Sex sex, int week, Blood blood,
                                Date bornTime, double height, double weight, String area, String hospital);
+
+
+    /**
+     * 得到用户信息用以前台显示
+     * @return 所有用户数组
+     */
+    ArrayList<BabyVO> getUserInfoList();
 }

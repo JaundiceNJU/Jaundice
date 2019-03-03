@@ -7,9 +7,11 @@ import com.nju.jaundice.util.Blood;
 import com.nju.jaundice.util.ResultMessage;
 import com.nju.jaundice.util.Role;
 import com.nju.jaundice.util.Sex;
+import com.nju.jaundice.vo.BabyVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @Service
@@ -69,5 +71,12 @@ public class UserBL implements UserBLService {
             e.printStackTrace();
             return ResultMessage.FAIL;
         }
+    }
+
+    @Override
+    public ArrayList<BabyVO> getUserInfoList() {
+        ArrayList<Baby> babyArrayList=new ArrayList<>(babyDao.findAll());
+
+        return null;
     }
 }

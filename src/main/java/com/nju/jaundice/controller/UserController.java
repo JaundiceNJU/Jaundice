@@ -1,16 +1,19 @@
 package com.nju.jaundice.controller;
 
 import com.nju.jaundice.blservice.UserBLService;
+import com.nju.jaundice.entity.Baby;
 import com.nju.jaundice.util.Blood;
 import com.nju.jaundice.util.ResultMessage;
 import com.nju.jaundice.util.Role;
 import com.nju.jaundice.util.Sex;
+import com.nju.jaundice.vo.BabyVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @Controller(value = "/user")
@@ -36,5 +39,11 @@ public class UserController {
     ResultMessage completeInfo(String telephone, Role parent, String nickname, Sex sex, int week, Blood blood,
                                 Date bornTime, double height, double weight, String area, String hospital){
         return userBLService.completeInfo(telephone,parent,nickname,sex,week,blood,bornTime,height,weight,area,hospital);
+    }
+
+    @RequestMapping(value = "/getUserInfo",method = RequestMethod.POST)
+    public @ResponseBody
+    ArrayList<BabyVO> getUserInfo(){
+        return userBLService.getUserInfoList();
     }
 }

@@ -19,10 +19,10 @@ spring:
     servlet:
       content-type: text/html
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: mysql
-    url: jdbc:mysql://localhost:3306/jaundice?characterEncoding=UTF-8&useSSL=true
+    url: jdbc:mysql://120.79.232.126:3306/jaundice?characterEncoding=UTF-8&useSSL=true
   jpa:
     database: mysql
     show-sql: false

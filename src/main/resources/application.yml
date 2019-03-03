@@ -18,6 +18,8 @@ spring:
     cache: true
     servlet:
       content-type: text/html
+  resources:
+    static-locations: classpath:/static/
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root

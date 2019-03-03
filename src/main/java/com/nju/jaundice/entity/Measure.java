@@ -15,7 +15,7 @@ import java.util.Date;
 public class Measure {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String baby;//测量的婴儿的ID
@@ -29,6 +29,8 @@ public class Measure {
     private double weight;//体重，单位kg
 
     private String diet;//近期饮食
+
+    private boolean isExceed;//黄疸值是否超标
 
     public Measure(String baby,double ice_lesion,double height,double weight,String diet){
         this.baby=baby;

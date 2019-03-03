@@ -76,7 +76,10 @@ public class UserBL implements UserBLService {
     @Override
     public ArrayList<BabyVO> getUserInfoList() {
         ArrayList<Baby> babyArrayList=new ArrayList<>(babyDao.findAll());
-
-        return null;
+        ArrayList<BabyVO> babyVOS=new ArrayList<>();
+        for(Baby b:babyArrayList){
+            babyVOS.add(new BabyVO(b));
+        }
+        return babyVOS;
     }
 }

@@ -14,9 +14,6 @@
     <script src="https://unpkg.com/tableexport.jquery.plugin@1.10.1/tableExport.min.js"></script>
     <title>Title</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div>
@@ -93,7 +90,9 @@
 <table
         id="table"
         data-height="460"
-        data-click-to-select="true">
+        data-detail-view="true"
+        data-detail-formatter="detailFormatter"
+>
     <thead>
     <tr>
         <th data-field="isChecked" data-checkbox="true"></th>
@@ -128,7 +127,64 @@
                 alert("fail");
             }
         });
-    })
+    });
+
+    function convert(key) {
+        var name;
+        switch (key) {
+            case 'id':
+                name='手机号';
+                break;
+            case 'parent':
+                name='亲属关系';
+                break;
+            case 'nickname':
+                name='宝宝姓名';
+                break;
+            case 'sex':
+                name='宝宝性别';
+                break;
+            case 'week':
+                name='孕周';
+                break;
+            case 'blood':
+                name='血型';
+                break;
+            case 'bornTime':
+                name='出生时间';
+                break;
+            case 'height':
+                name='出生身高';
+                break;
+            case 'weight':
+                name='出生体重';
+                break;
+            case 'area':
+                name='出生地区';
+                break;
+            case 'hospital':
+                name='出生医院';
+                break;
+            default:
+                break;
+        }
+        return name;
+    }
+
+    function detailFormatter(index, row) {
+        var html = []
+        var i=1;
+        var name;
+        $.each(row, function (key, value) {
+            name=convert(key);
+            html.push('<div class="col-xs-3"> <span><b>' + name + ':</b> ' + value + ' </span> </div> ')
+            if(i%4===0){
+                html.push('<br>')
+            }
+            i++;
+        })
+        return html.join('')
+    }
 </script>
 </body>
 </html>

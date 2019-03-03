@@ -4,6 +4,7 @@ import com.nju.jaundice.entity.Baby;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -31,7 +32,7 @@ public class BabyVO {
 
     private String blood;//血型
 
-    private Date bornTime;//出生时间
+    private String bornTime;//出生时间
 
     private double height;//出生身长
 
@@ -44,6 +45,8 @@ public class BabyVO {
     public BabyVO(){}
 
     public BabyVO(Baby baby){
+        Date currentTime = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.id=baby.getId();
         this.password=baby.getPassword();
         this.parent=baby.getParent().getChinese_name();
@@ -51,7 +54,7 @@ public class BabyVO {
         this.sex=baby.getSex().getToChinese();
         this.week=baby.getWeek();
         this.blood=baby.getBlood().toString();
-        this.bornTime=baby.getBornTime();
+        this.bornTime=formatter.format(baby.getBornTime());
         this.height=baby.getHeight();
         this.weight=baby.getWeight();
         this.area=baby.getArea();

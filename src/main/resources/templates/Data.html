@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Jaundice</title>
+
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://unpkg.com/bootstrap-table@1.13.3/dist/bootstrap-table.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.13.3/dist/bootstrap-table.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.13.4/dist/bootstrap-table-locale-all.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-table@1.13.4/dist/extensions/export/bootstrap-table-export.min.js"></script>
+    <script src="https://unpkg.com/tableexport.jquery.plugin@1.10.1/tableExport.min.js"></script>
+    <title>主页</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin:0;font-size: 23px;font-family: 华文楷体, serif;">
+        <div class="container-fluid">
+            <div class="navbar-header" style="margin-right: 40px;">
+                <a class="navbar-brand" href="#" style="font-size: 30px;color: rgba(0,0,0,1)">黄疸检测云管理系统</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li><a href="/home">用户列表</a></li>
+                    <li class="active"><a href="#">数据列表</a></li>
+                    <li><a href="#">数据统计</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a id="title-username" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            管理员
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" style="font-size: 18px;min-width: 115px;text-align: center;">
+                            <li id="logout" style="cursor: pointer" onclick=""><a>登出</a></li>
+                            <li><a href="#">修改密码</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<style>
+    .bootstrap-table{
+        margin-top: 60px;
+    }
+</style>
+
+<table
+        id="table"
+        data-detail-view="true"
+        data-detail-formatter="detailFormatter"
+        data-search="true"
+        data-trim-on-search="true"
+        data-locale="zh-CN"
+        data-pagination="true"
+>
+    <thead>
+    <tr>
+        <th data-field="baby">用户手机号</th>
+        <th data-field="ice_lesion">黄疸值</th>
+        <th data-field="date">测量时间</th>
+        <th data-field="isExceed">是否超标</th>
+    </tr>
+    </thead>
+</table>
+
+<script>
+    var $table=$('#table');
+
+    $(function() {
+
+        $.ajax({
+            type:'POST',
+            url:'/getDataList',
+            success:function (data) {
+                // alert(JSON.stringify(data));
+                $(function () {
+                    $table.bootstrapTable({
+                        data:data
+                    });
+                });
+
+
+            },
+            error:function (data) {
+                alert("fail");
+            }
+        });
+    });
+
+    function convert(key) {
+        var name;
+        switch (key) {
+            case 'id':
+                name='用户ID';
+                break;
+            case 'baby':
+                name='用户手机号';
+                break;
+            case 'ice_lesion':
+                name='黄疸值';
+                break;
+            case 'date':
+                name='测量时间';
+                break;
+            case 'height':
+                name='身高(cm)';
+                break;
+            case 'weight':
+                name='体重(kg)';
+                break;
+            case 'diet':
+                name='近期饮食';
+                break;
+            case 'isExceed':
+                name='是否超标';
+                break;
+            default:
+                break;
+        }
+        return name;
+    }
+
+    function detailFormatter(index, row) {
+        var html = [];
+        var i=1;
+        var name;
+        $.each(row, function (key, value) {
+            name=convert(key);
+            html.push('<div class="col-xs-3"> <span><b>' + name + ':</b> ' + value + ' </span> </div> ')
+            if(i%4===0){
+                html.push('<br>')
+            }
+            i++;
+        });
+        return html.join('')
+    }
+</script>
+</body>
+</html>

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Controller(value = "/user")
 public class UserController {
@@ -45,5 +46,17 @@ public class UserController {
     public @ResponseBody
     ArrayList<BabyVO> getUserInfo(){
         return userBLService.getUserInfoList();
+    }
+
+    @RequestMapping(value = "/test",method = RequestMethod.POST)
+    public @ResponseBody
+    List<Integer> test(){
+        List<Integer> a=new ArrayList<>();
+        a.add(1);
+        a.add(2);
+        a.add(3);
+        a.add(4);
+        a.add(5);
+        return a;
     }
 }

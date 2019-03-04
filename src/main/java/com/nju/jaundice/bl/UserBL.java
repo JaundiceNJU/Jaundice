@@ -22,7 +22,7 @@ public class UserBL implements UserBLService {
 
     @Override
     public ResultMessage login(String telephone, String password) {
-        Baby baby=babyDao.getOne(telephone);
+        Baby baby=babyDao.find(telephone);
         if(baby==null){
             return ResultMessage.NOTEXIST;
         }else{
@@ -37,7 +37,7 @@ public class UserBL implements UserBLService {
     @Override
     public ResultMessage register(String telephone, String password) {
         try{
-            Baby baby=babyDao.getOne(telephone);
+            Baby baby=babyDao.find(telephone);
             if(baby!=null){
                 return ResultMessage.EXIST;
             }else{
@@ -54,7 +54,7 @@ public class UserBL implements UserBLService {
     @Override
     public ResultMessage completeInfo(String telephone, Role parent, String nickname, Sex sex, int week, Blood blood, Date bornTime,double height,double weight,String area,String hospital) {
         try{
-            Baby baby=babyDao.getOne(telephone);
+            Baby baby=babyDao.find(telephone);
             baby.setParent(parent);
             baby.setNickname(nickname);
             baby.setSex(sex);

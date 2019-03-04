@@ -26,7 +26,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/home">用户列表</a></li>
                     <li class="active"><a href="#">数据列表</a></li>
-                    <li><a href="#">数据统计</a></li>
+                    <li><a href="/statistics">数据统计</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
@@ -35,7 +35,7 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" style="font-size: 18px;min-width: 115px;text-align: center;">
-                            <li id="logout" style="cursor: pointer" onclick=""><a>登出</a></li>
+                            <li id="logout" style="cursor: pointer"><a>登出</a></li>
                             <li><a href="#">修改密码</a></li>
                         </ul>
                     </li>
@@ -48,6 +48,9 @@
 <style>
     .bootstrap-table{
         margin-top: 60px;
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
     }
 </style>
 
@@ -59,13 +62,17 @@
         data-trim-on-search="true"
         data-locale="zh-CN"
         data-pagination="true"
+        data-show-refresh="true"
+        data-show-pagination-switch="true"
+        data-sort-class="table-active"
+        data-sortable="true"
 >
     <thead>
     <tr>
-        <th data-field="baby">用户手机号</th>
-        <th data-field="ice_lesion">黄疸值</th>
-        <th data-field="date">测量时间</th>
-        <th data-field="isExceed">是否超标</th>
+        <th data-field="baby" data-sortable="true">用户手机号</th>
+        <th data-field="ice_lesion" data-sortable="true">黄疸值</th>
+        <th data-field="date" data-sortable="true">测量时间</th>
+        <th data-field="isExceed" data-sortable="true">是否超标</th>
     </tr>
     </thead>
 </table>
@@ -141,6 +148,10 @@
         });
         return html.join('')
     }
+    $("#logout").click(function () {
+        localStorage.clear();
+        window.location.href='/jaundice';
+    });
 </script>
 </body>
 </html>

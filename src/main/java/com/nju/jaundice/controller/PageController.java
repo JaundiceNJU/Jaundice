@@ -9,7 +9,7 @@ public class PageController {
 
     @RequestMapping(value = "/jaundice",method = RequestMethod.GET)
     public String getIntroducePage(){
-        return "Jaundice";
+        return "Login";
     }
 
     @RequestMapping(value = "/home",method = RequestMethod.GET)
@@ -20,6 +20,11 @@ public class PageController {
     @RequestMapping(value = "/data",method = RequestMethod.GET)
     public String getData(){
         return "Data";
+    }
+
+    @RequestMapping(value = "/statistics",method = RequestMethod.GET)
+    public String getStatistics(){
+        return "Statistics";
     }
 
 }

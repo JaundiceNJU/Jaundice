@@ -2,6 +2,7 @@ package com.nju.jaundice.controller;
 
 import com.nju.jaundice.blservice.MeasureBLService;
 import com.nju.jaundice.entity.Measure;
+import com.nju.jaundice.vo.MeasureVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +27,10 @@ public class MeasureController {
     public @ResponseBody
     List<Measure> getMeasureListByUsername(String username){
         return measureBLService.getMeasureListByUsername(username);
+    }
+
+    @RequestMapping(value = "/getDataList",method = RequestMethod.POST)
+    public @ResponseBody List<MeasureVO> getDataList(){
+        return measureBLService.getMeasureList();
     }
 }

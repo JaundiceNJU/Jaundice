@@ -17,4 +17,9 @@ public class PageController {
         return "Home";
     }
 
+    @RequestMapping(value = "/data",method = RequestMethod.GET)
+    public String getData(){
+        return "Data";
+    }
+
 }

@@ -12,7 +12,7 @@
     <script src="https://unpkg.com/bootstrap-table@1.13.4/dist/bootstrap-table-locale-all.min.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.13.4/dist/extensions/export/bootstrap-table-export.min.js"></script>
     <script src="https://unpkg.com/tableexport.jquery.plugin@1.10.1/tableExport.min.js"></script>
-    <title>Title</title>
+    <title>主页</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 </head>
 <body>
@@ -24,9 +24,8 @@
             </div>
             <div>
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">首页</a></li>
-                    <li><a href="#">用户列表</a></li>
-                    <li><a href="#">数据列表</a></li>
+                    <li class="active"><a href="#">用户列表</a></li>
+                    <li><a href="/data">数据列表</a></li>
                     <li><a href="#">数据统计</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -45,57 +44,24 @@
         </div>
     </nav>
 </div>
-<script>
-</script>
 
 <style>
-    body{
-        margin: 0;
-        padding: 0;
-        font-family: 'Cabin',sans-serif!important;
-    }
-
-
-    .bottom{
-        margin-bottom: 0;
-        background-color: #aaaaaa;
+    .bootstrap-table{
+        margin-top: 60px;
     }
 </style>
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">网站名</a>
-
-        </div>
-        <div class="collapse navbar-collapse" id="myNavbar">
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">主页</a></li>
-                <li><a href="#">页面 2</a></li>
-                <li><a href="#">页面 3</a></li>
-            </ul>
-
-
-            <button type="button" class="btn btn-md btn-link" style="float: right;bottom: 0;right: 0;position: absolute" onclick="logout()">
-                <span class="glyphicon glyphicon-user"></span> 登出
-            </button>
-        </div>
-    </div>
-</nav>
 
 <table
         id="table"
-        data-height="460"
         data-detail-view="true"
         data-detail-formatter="detailFormatter"
+        data-search="true"
+        data-trim-on-search="true"
+        data-locale="zh-CN"
+        data-pagination="true"
 >
     <thead>
     <tr>
-        <th data-field="isChecked" data-checkbox="true"></th>
         <th data-field="id">手机号</th>
         <th data-field="nickname">宝宝名称</th>
         <th data-field="sex">宝宝性别</th>
@@ -154,10 +120,10 @@
                 name='出生时间';
                 break;
             case 'height':
-                name='出生身高';
+                name='出生身高(cm)';
                 break;
             case 'weight':
-                name='出生体重';
+                name='出生体重(kg)';
                 break;
             case 'area':
                 name='出生地区';
@@ -172,17 +138,22 @@
     }
 
     function detailFormatter(index, row) {
-        var html = []
+        var html = [];
         var i=1;
         var name;
         $.each(row, function (key, value) {
-            name=convert(key);
-            html.push('<div class="col-xs-3"> <span><b>' + name + ':</b> ' + value + ' </span> </div> ')
-            if(i%4===0){
-                html.push('<br>')
+            if(key==="password"){
+
+            }else{
+                name=convert(key);
+                html.push('<div class="col-xs-3"> <span><b>' + name + ':</b> ' + value + ' </span> </div> ')
+                if(i%4===0){
+                    html.push('<br>')
+                }
+                i++;
             }
-            i++;
-        })
+
+        });
         return html.join('')
     }
 </script>

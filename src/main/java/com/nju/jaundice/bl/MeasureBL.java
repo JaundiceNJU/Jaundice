@@ -3,9 +3,11 @@ package com.nju.jaundice.bl;
 import com.nju.jaundice.blservice.MeasureBLService;
 import com.nju.jaundice.dao.MeasureDao;
 import com.nju.jaundice.entity.Measure;
+import com.nju.jaundice.vo.MeasureVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,5 +32,15 @@ public class MeasureBL implements MeasureBLService {
     @Override
     public List<Measure> getMeasureListByUsername(String username) {
         return measureDao.findByUsername(username);
+    }
+
+    @Override
+    public List<MeasureVO> getMeasureList() {
+        List<Measure> measures=measureDao.findAll();
+        List<MeasureVO> measureVOS=new ArrayList<>();
+        for(Measure m:measures){
+            measureVOS.add(new MeasureVO(m));
+        }
+        return measureVOS;
     }
 }

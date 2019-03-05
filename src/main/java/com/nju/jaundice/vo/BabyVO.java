@@ -46,7 +46,7 @@ public class BabyVO {
 
     public BabyVO(Baby baby){
         Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         this.id=baby.getId();
         this.password=baby.getPassword();
         this.parent=baby.getParent().getChinese_name();

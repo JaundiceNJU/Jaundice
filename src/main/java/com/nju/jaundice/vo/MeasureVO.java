@@ -36,7 +36,7 @@ public class MeasureVO {
 
     public MeasureVO(Measure measure){
 
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd");
         this.id=measure.getId();
         this.baby=measure.getBaby();
         this.ice_lesion=measure.getIce_lesion();

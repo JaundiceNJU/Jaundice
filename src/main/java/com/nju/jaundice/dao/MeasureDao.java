@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 @Table(name = "measure")
-public interface MeasureDao extends JpaRepository<Measure,Long> {
+public interface MeasureDao extends JpaRepository<Measure, Integer> {
 
     @Query(value = "select m from Measure m where m.baby=:username order by m.date desc")
     List<Measure> findByUsername(String username);

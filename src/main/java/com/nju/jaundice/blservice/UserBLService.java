@@ -52,4 +52,9 @@ public interface UserBLService {
      * @return 所有用户数组
      */
     ArrayList<BabyVO> getUserInfoList();
+
+
+    ResultMessage saveNewUser(String tel,String babyName,int week,double height,double weight,String area,String hospital,String parent,String blood,String birthday,String sex);
+
+    ResultMessage deleteUser(String[] tel);
 }

@@ -40,4 +40,15 @@ public class Measure {
         this.diet=diet;
     }
 
+    public Measure(String tel, double ice_lesion, Date messure_time, double height, double weight, String diet,boolean isExceed){
+        this.baby=tel;
+        this.ice_lesion=ice_lesion;
+        this.date=messure_time;
+        this.height=height;
+        this.weight=weight;
+        this.diet=diet;
+        this.isExceed=isExceed;
+
+    }
+
 }

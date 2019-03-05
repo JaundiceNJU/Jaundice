@@ -9,9 +9,7 @@ import com.nju.jaundice.util.Sex;
 import com.nju.jaundice.vo.BabyVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,15 +46,16 @@ public class UserController {
         return userBLService.getUserInfoList();
     }
 
-    @RequestMapping(value = "/test",method = RequestMethod.POST)
-    public @ResponseBody
-    List<Integer> test(){
-        List<Integer> a=new ArrayList<>();
-        a.add(1);
-        a.add(2);
-        a.add(3);
-        a.add(4);
-        a.add(5);
-        return a;
+    @RequestMapping(value = "/saveNewUser",method = RequestMethod.POST)
+    public @ResponseBody ResultMessage saveNewUser(String tel,String babyName,int week,double height,double weight,String area,String hospital,String parent,String blood,String birthday,String sex){
+        return userBLService.saveNewUser(tel, babyName, week, height, weight, area, hospital, parent, blood, birthday, sex);
     }
+
+    @RequestMapping(value = "/deleteUser",method = RequestMethod.POST)
+    public @ResponseBody ResultMessage deleteUser(String tel){
+        String newTel=tel.substring(1,tel.length()-1);
+//        System.err.print(newTel);
+        return userBLService.deleteUser(newTel.split(","));
+    }
+
 }

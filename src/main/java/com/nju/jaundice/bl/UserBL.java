@@ -11,6 +11,8 @@ import com.nju.jaundice.vo.BabyVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -19,6 +21,8 @@ public class UserBL implements UserBLService {
 
     @Autowired
     private BabyDao babyDao;
+
+    private final String initPsd="123456";
 
     @Override
     public ResultMessage login(String telephone, String password) {
@@ -81,5 +85,35 @@ public class UserBL implements UserBLService {
             babyVOS.add(new BabyVO(b));
         }
         return babyVOS;
+    }
+
+    @Override
+    public ResultMessage saveNewUser(String tel, String babyName, int week, double height, double weight, String area, String hospital, String parent, String blood, String birthday,String sex) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+        try {
+            Role role=Role.valueOf(parent);
+            Blood babyBlood=Blood.valueOf(blood);
+            Sex babySex=Sex.valueOf(sex);
+            System.err.print(role+" "+babyBlood+" "+babySex);
+            Date date=sdf.parse(birthday);
+            Baby baby=new Baby(tel,initPsd,role,babyName,babySex,week,babyBlood,date,height,weight,area,hospital);
+            babyDao.saveAndFlush(baby);
+            return ResultMessage.SUCCESS;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return ResultMessage.FAIL;
+        }
+
+    }
+
+    @Override
+    public ResultMessage deleteUser(String[] tel) {
+        for(int i=0;i<tel.length;i++){
+            Baby baby=babyDao.find(tel[i].substring(1,tel[i].length()-1));
+            if(baby!=null){
+                babyDao.delete(baby);
+            }
+        }
+        return ResultMessage.SUCCESS;
     }
 }

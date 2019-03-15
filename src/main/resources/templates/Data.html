@@ -168,11 +168,8 @@
             <span class="label">近期饮食:</span>
             <input type="text" class="add_input" id="add_diet" placeholder="请输入近期饮食相关">
         </div>
-
-
     </div>
-
-    <div class="add_buttons">
+    <div class="add_buttons" style="margin-bottom: 5px">
         <button class="btn button" id="add_sure" onclick="addSure()">确定</button>
         <button class="btn button" id="add_cancel" onclick="addCancel()">取消</button>
         <span id="error_hint"></span>
@@ -207,7 +204,6 @@
         background-color: white;
         position: absolute;
         width: 40%;
-        height: 65%;
         box-shadow: 0 1px 2px rgba(0,0,0,.5);
         border-radius: 4px;
     }
@@ -238,7 +234,6 @@
         width: 95%;
     }
 </style>
-
 <style>
     .bootstrap-table{
         margin-top: 60px;
@@ -247,7 +242,6 @@
         margin-right: auto;
     }
 </style>
-
 <table
         id="table"
         data-detail-view="true"
@@ -272,9 +266,7 @@
     </tr>
     </thead>
 </table>
-
 <script>
-
     function addSure() {
         $(".add_item_bkg").css('display','none');
         $(".add_hint").css('display','none');
@@ -286,12 +278,6 @@
         var weight=$("#add_weight").val();
         var diet=$("#add_diet").val();
 
-
-
-
-        // alert("sex "+sex);
-        // alert("blood "+blood);
-        // alert("parent "+parent);
         $.ajax({
             type:'POST',
             url:'/saveNewData',
@@ -316,7 +302,6 @@
             }
         })
     }
-
     function deleteData() {
         var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
             return row.id
@@ -345,21 +330,17 @@
             })
         }
     }
-
     function addCancel() {
         $(".add_item_bkg").css('display','none');
         $(".add_hint").css('display','none');
     }
-
     function showAddHint() {
         $(".button").css('color','white');
         $(".add_item_bkg").css('display','block');
         $(".add_hint").css('display','block');
     }
 
-
     var $table=$('#table');
-
     $(function() {
 
         $.ajax({
@@ -380,7 +361,6 @@
             }
         });
     });
-
     function convert(key) {
         var name;
         switch (key) {

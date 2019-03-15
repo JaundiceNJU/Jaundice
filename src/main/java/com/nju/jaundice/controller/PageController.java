@@ -27,4 +27,9 @@ public class PageController {
         return "Statistics";
     }
 
+    @RequestMapping(value = "/userStatistics",method = RequestMethod.GET)
+    public String getUserStatistics(){
+        return "UserStatistics";
+    }
+
 }

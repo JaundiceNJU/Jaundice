@@ -159,7 +159,7 @@
         <div class="form-wrapper" id="blood" style="height: 27px;" >
             <span class="label">血型选择:</span>
             <div class="select-item" style="float: left;">
-                <select class="selectpicker form-control" id="select_category" title="请选择...">
+                <select class="selectpicker form-control" id="select_category" title="请选择..." style="height: 30px;">
                     <!--<option value="0">请选择</option>-->
                     <option value="O">O型</option>
                     <option value="A">A型</option>
@@ -216,7 +216,7 @@
 
     </div>
 
-    <div class="add_buttons">
+    <div class="add_buttons" style="margin-bottom: 5px">
         <button class="btn button" id="add_sure" onclick="addSure()">确定</button>
         <button class="btn button" id="add_cancel" onclick="addCancel()">取消</button>
         <span id="error_hint"></span>
@@ -252,7 +252,6 @@
         background-color: white;
         position: absolute;
         width: 40%;
-        height: 65%;
         box-shadow: 0 1px 2px rgba(0,0,0,.5);
         border-radius: 4px;
     }

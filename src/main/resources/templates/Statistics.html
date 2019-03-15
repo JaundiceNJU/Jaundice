@@ -12,7 +12,7 @@
     <script src="https://unpkg.com/bootstrap-table@1.13.4/dist/extensions/export/bootstrap-table-export.min.js"></script>
     <script src="https://unpkg.com/tableexport.jquery.plugin@1.10.1/tableExport.min.js"></script>
     <script src="/js/jquery-3.3.1.min.js"></script>
-    <script src="/js/echarts.min.js"></script>
+    <script src="/js/echarts.js"></script>
     <script src="/js/china.js"></script>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <style>
@@ -21,25 +21,14 @@
             padding: 0;
             font-family: 'Cabin',sans-serif!important;
         }
-        .bottom{
-            margin-bottom: 0;
-            background-color: #aaaaaa;
+        .my-title{
+            font-size: 30px;
+            font-family: 华文楷体,serif;
+            text-align: center;
         }
-        .ch{
-            display: inline;
-            background: black;
-        }
-        .left-bar{
-            background: white;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            border-bottom: 1px solid #eeeddd;
-            border-right: 1px solid #eeeddd;
-        }
-        .choose{
-            display: inline;
-            background: white;
-            border: none
+        .pane-title{
+            font-family: 华文楷体, serif;
+            color: #000;
         }
     </style>
 </head>
@@ -72,105 +61,586 @@
         </div>
     </nav>
 </div>
-<style>
-</style>
-<div class="container-fluid" style="margin-top: 60px">
+<div class="container-fluid con" style="margin-top: 60px">
     <div class="row">
         <div class="col-md-2">
-            <ul class="nav nav-tabs nav-stacked" style="font-size: 22px;font-family: 华文楷体, serif;text-align: center;">
-                <li class="left-bar">
-                    <input type="checkbox" class="ch">
-                    <p class="choose">按地区</p>
-                </li>
-                <li class="left-bar">
-                    <input type="checkbox" class="ch">
-                    <p class="choose">按月份</p>
-                </li>
-                <li class="left-bar">
-                    <input type="checkbox" class="ch">
-                    <p class="choose">按孕周</p>
-                </li>
-            </ul>
+            <div class="panel-group" id="accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title my-title">
+                            <a data-toggle="collapse" data-parent="#accordion" style="text-decoration: none"
+                               href="#collapseOne">
+                                用户统计
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse collapse">
+                        <div class="panel-body" style="padding: 0;">
+                            <ul class="nav" style="text-align: center;font-family: 华文楷体, serif;font-size: 23px;">
+                                <li><a href="#amount" data-toggle="tab">用户总数</a></li>
+                                <li><a href="#area" data-toggle="tab">地区分布</a></li>
+                                <li><a href="#sex" data-toggle="tab">性别统计</a></li>
+                                <li><a href="#blood" data-toggle="tab">血型统计</a></li>
+                                <li><a href="#weeks" data-toggle="tab">孕周统计</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title my-title">
+                            <a data-toggle="collapse" data-parent="#accordion" style="text-decoration: none;"
+                               href="#collapseTwo">
+                                测量统计
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse">
+                        <div class="panel-body" style="padding: 0">
+                            <ul class="nav" style="text-align: center;font-family: 华文楷体, serif;font-size: 23px;">
+                                <li><a href="#measure-total" data-toggle="tab">数据总量</a></li>
+                                <li><a href="#measure-area" data-toggle="tab">地区分布</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div id="container" class="col-md-10" style="height: 600px;width:900px;background:white;"></div>
+        <div class="col-md-10 tab-content">
+            <div id="amount" class="tab-pane fade in active">
+                <h2 class="pane-title">平台婴儿总数</h2>
+                <h2 style="padding-left: 75px;">783</h2>
+                <h2 class="pane-title">总数增长曲线</h2>
+                <div id="people-rise" style="width: 800px;height: 450px;margin-left: 100px;"></div>
+            </div>
+            <div id="area" class="tab-pane fade in active">
+                <h2 class="pane-title" style="display: inline-block">婴儿地区分布图</h2>
+                <div class="input-group"  style="width: 200px;top: 20px;display: -webkit-inline-box;float: right;margin-right: 180px;">
+                    <input type="text" class="form-control" placeholder="输入想要查看的省"/>
+                    <span class="input-group-btn">
+                        <button id="search-detail-province" type="submit" class="btn btn-info btn-search glyphicon glyphicon-search" style="margin-top: -1px;"></button>
+                    </span>
+                </div>
+                <div id="area-map" style="width:1000px;height: 600px;margin-left: 30px;"></div>
+            </div>
+            <div id="sex" class="tab-pane fade in active">
+                <h2 class="pane-title">婴儿性别比例图</h2>
+                <div class="row" style="font-size: 18px;font-family: 华文楷体, serif;">
+                    <div class="col-md-6">
+                        <div id="sex-pie" style="width: 300px;height: 300px;margin-left: 100px;"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-bordered" style="width: 80%;margin-top: 60px;">
+                            <thead>
+                                <tr>
+                                    <th>性别</th>
+                                    <th>数量</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td>男孩</td>
+                                <td>335</td>
+                            </tr>
+                            <tr>
+                                <td>女孩</td>
+                                <td>310</td>
+                            </tr>
+                            <tr>
+                                <td>总数</td>
+                                <td>645</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="blood" class="tab-pane fade in active">
+                <h2 class="pane-title">婴儿血型比例图</h2>
+                <div class="row" style="font-size: 18px;font-family: 华文楷体, serif;">
+                    <div class="col-md-6">
+                        <div id="blood-pie" style="width: 300px;height: 300px;margin-left: 100px;"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-bordered" style="width: 80%;margin-top: 30px;">
+                            <thead>
+                            <tr>
+                                <th>血型</th>
+                                <th>数量</th>
+                            </tr>
+                            </thead>
+                            <tr>
+                                <td>O型</td>
+                                <td>335</td>
+                            </tr>
+                            <tr>
+                                <td>A型</td>
+                                <td>220</td>
+                            </tr>
+                            <tr>
+                                <td>B型</td>
+                                <td>230</td>
+                            </tr>
+                            <tr>
+                                <td>AB型</td>
+                                <td>201</td>
+                            </tr>
+                            <tr>
+                                <td>其他</td>
+                                <td>35</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="weeks" class="tab-pane fade in active">
+                <h2 class="pane-title">出生孕周比例图</h2>
+                <div class="row" style="font-size: 18px;font-family: 华文楷体, serif;">
+                    <div class="col-md-6">
+                        <div id="weeks-pie" style="width: 300px;height: 300px;margin-left: 100px;"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-bordered" style="width: 80%;margin-top: 30px;">
+                            <thead>
+                            <tr>
+                                <th>孕周</th>
+                                <th>数量</th>
+                            </tr>
+                            </thead>
+                            <tr>
+                                <td><28周</td>
+                                <td>335</td>
+                            </tr>
+                            <tr>
+                                <td>28~37周(早产)</td>
+                                <td>310</td>
+                            </tr>
+                            <tr>
+                                <td>37~42周(足月产)</td>
+                                <td>645</td>
+                            </tr>
+                            <tr>
+                                <td>>42周(过期产)</td>
+                                <td>645</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div id="measure-total" class="tab-pane fade in active">
+                <h2 class="pane-title">平台数据总量</h2>
+                <h2 style="padding-left: 75px;">7483</h2>
+                <h2 class="pane-title">数据增长曲线图</h2>
+                <div id="measure-rise" style="width: 800px;height: 450px;margin-left: 100px;"></div>
+            </div>
+            <div id="measure-area" class="tab-pane fade in active">
+                <h2 class="pane-title" style="display: inline-block">数据地区分布图</h2>
+                <div class="input-group"  style="width: 200px;top: 20px;display: -webkit-inline-box;float: right;margin-right: 180px;">
+                    <input type="text" class="form-control" placeholder="输入想要查看的省"/>
+                    <span class="input-group-btn">
+                        <button id="search-detail-province-measure" type="submit" class="btn btn-info btn-search glyphicon glyphicon-search" style="margin-top: -1px;"></button>
+                    </span>
+                </div>
+                <div id="measure-area-map" style="width:1000px;height: 600px;margin-left: 30px;"></div>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
+    window.onload=function () {
+        initPeopleRise();
+        initArea();
+        initSex();
+        initBlood();
+        initWeeks();
+        initMeasureRise();
+        initMeasureArea();
+    };
+    $("#search-detail-province").click(function () {
+        alert('还没写完');
+    });
+    $("#search-detail-province-measure").click(function () {
+        alert('也还没写完');
+    });
+    function initPeopleRise() {
+        var option={
+            title:{
+                show:false,
+                text:'网站使用人数增长变化曲线'
+            },
+            tooltip:{
+                show:true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['2018-10','2018-11','2018-12', '2019-1', '2019-2', '2019-3']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: [100, 200, 260, 370, 440, 490],
+                type: 'line',
+                smooth:true
+            }]
+        };
+        var peopleRise=echarts.init(document.getElementById('people-rise'));
+        peopleRise.setOption(option);
+    }
+    function initArea() {
+        var mydata = [
+            {name: '北京', value: '100'}, {name: '天津', value: randomData()},
+            {name: '上海', value: randomData()}, {name: '重庆', value: randomData()},
+            {name: '河北', value: randomData()}, {name: '河南', value: randomData()},
+            {name: '云南', value: randomData()}, {name: '辽宁', value: randomData()},
+            {name: '黑龙江', value: randomData()}, {name: '湖南', value: randomData()},
+            {name: '安徽', value: randomData()}, {name: '山东', value: randomData()},
+            {name: '新疆', value: randomData()}, {name: '江苏', value: randomData()},
+            {name: '浙江', value: randomData()}, {name: '江西', value: randomData()},
+            {name: '湖北', value: randomData()}, {name: '广西', value: randomData()},
+            {name: '甘肃', value: randomData()}, {name: '山西', value: randomData()},
+            {name: '内蒙古', value: randomData()}, {name: '陕西', value: randomData()},
+            {name: '吉林', value: randomData()}, {name: '福建', value: randomData()},
+            {name: '贵州', value: randomData()}, {name: '广东', value: randomData()},
+            {name: '青海', value: randomData()}, {name: '西藏', value: randomData()},
+            {name: '四川', value: randomData()}, {name: '宁夏', value: randomData()},
+            {name: '海南', value: randomData()}, {name: '台湾', value: randomData()},
+            {name: '香港', value: randomData()}, {name: '澳门', value: randomData()}
+        ];
+        var optionMap = {
+            backgroundColor: '#ffffff',
+            title: {
+                show:false,
+                text: '全国用户分布',
+                subtext: ''
+                // x: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            // toolbox:{
+            //     feature:{
+            //         myTool1:{
+            //             show:true,
+            //             title:'查看具体省份',
+            //             icon:'image://../static/images/search.png',
+            //             onclick:function () {
+            //                 alert("还没写完");
+            //             }
+            //         }
+            //     }
+            // },
+            //左侧小导航图标
+            visualMap: {
+                show: true,
+                x: 'left',
+                y: 'center',
+                splitList: [
+                    {start: 500, end: 600}, {start: 400, end: 500},
+                    {start: 300, end: 400}, {start: 200, end: 300},
+                    {start: 100, end: 200}, {start: 0, end: 100},
+                ],
+                color: ['#5475f5', '#9feaa5', '#85daef', '#74e2ca', '#e6ac53', '#9fb5ea']
+            },
+            //配置属性
+            series: [{
+                name: '数据',
+                type: 'map',
+                mapType: 'china',
+                roam: true,
+                label: {
+                    normal: {
+                        show: true  //省份名称
+                    },
+                    emphasis: {
+                        show: false
+                    }
+                },
+                data: mydata  //数据
+            }]
+        };
+        //初始化echarts实例
+        var myChart = echarts.init(document.getElementById('area-map'));
+        //使用制定的配置项和数据显示图表
+        myChart.setOption(optionMap);
+    }
+    function initSex() {
+        var option = {
+            title:{
+                show:false,
+                text:'婴儿性别比例图',
+                x:'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data:['男孩','女孩'],
+                textStyle:{
+                    fontFamily:'华文楷体',
+                    fontSize:16
+                }
+            },
+            series: [
+                {
+                    name:'婴儿性别',
+                    type:'pie',
+                    radius: 70,
+                    center:['70%','50%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: false,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data:[
+                        {value:335, name:'男孩'},
+                        {value:310, name:'女孩'}
+                    ]
+                }
+            ]
+        };
+        var sexGroup=echarts.init(document.getElementById('sex-pie'));
+        sexGroup.setOption(option);
+    }
+    function initBlood() {
+        var option={
+            title:{
+                show:false,
+                text:'婴儿血型比例图',
+                x:'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data:['O型','A型','B型','AB型','其他'],
+                textStyle:{
+                    fontFamily:'华文楷体',
+                    fontSize:16
+                }
+            },
+            series: [
+                {
+                    name:'婴儿血型',
+                    type:'pie',
+                    radius: 70,
+                    center:['70%','50%'],
+                    avoidLabelOverlap: true,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: false,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: true
+                        }
+                    },
+                    data:[
+                        {value:335, name:'O型'},
+                        {value:220, name:'A型'},
+                        {value:230, name:'B型'},
+                        {value:201, name:'AB型'},
+                        {value:35, name:'其他'}
+                    ]
+                }
+            ]
+        };
+        var bloodPie=echarts.init(document.getElementById('blood-pie'));
+        bloodPie.setOption(option);
+    }
+    function initWeeks() {
+        var option={
+            title:{
+                show:false,
+                text:'婴儿出生孕周比例图',
+                x:'center'
+            },
+            tooltip:{
+                trigger:'item',
+                formatter:'{a} <br> {b} : {c} ({d}%)'
+            },
+            legend:{
+                orient:'vertical',
+                x:'left',
+                data:['小于28周','28~37周','37~42周','大于42周'],
+                textStyle:{
+                    fontFamily:'华文楷体',
+                    fontSize:16
+                }
+            },
+            series:[{
+                name:'出生孕周',
+                type:'pie',
+                radius: 70,
+                center:['70%','50%'],
+                avoidLabelOverlap: true,
+                label: {
+                    normal: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        show: false,
+                        textStyle: {
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: true
+                    }
+                },
+                data:[
+                    {value:20, name:'小于28周'},
+                    {value:100, name:'28~37周'},
+                    {value:335, name:'37~42周'},
+                    {value:30, name:'大于42周'}]
+            }]
+        };
+        var weekPie=echarts.init(document.getElementById('weeks-pie'));
+        weekPie.setOption(option);
+    }
+
+    function initMeasureRise() {
+        var option={
+            title:{
+                show:false,
+                text:'曲线'
+            },
+            tooltip:{
+                show:true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['2018-10','2018-11','2018-12', '2019-1', '2019-2', '2019-3']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: [212, 323, 435, 656, 877, 909],
+                type: 'line',
+                smooth:true
+            }]
+        };
+        var measureRise=echarts.init(document.getElementById('measure-rise'));
+        measureRise.setOption(option);
+    }
+    function initMeasureArea() {
+        var mydata = [
+            {name: '北京', value: '100'}, {name: '天津', value: randomData()},
+            {name: '上海', value: randomData()}, {name: '重庆', value: randomData()},
+            {name: '河北', value: randomData()}, {name: '河南', value: randomData()},
+            {name: '云南', value: randomData()}, {name: '辽宁', value: randomData()},
+            {name: '黑龙江', value: randomData()}, {name: '湖南', value: randomData()},
+            {name: '安徽', value: randomData()}, {name: '山东', value: randomData()},
+            {name: '新疆', value: randomData()}, {name: '江苏', value: randomData()},
+            {name: '浙江', value: randomData()}, {name: '江西', value: randomData()},
+            {name: '湖北', value: randomData()}, {name: '广西', value: randomData()},
+            {name: '甘肃', value: randomData()}, {name: '山西', value: randomData()},
+            {name: '内蒙古', value: randomData()}, {name: '陕西', value: randomData()},
+            {name: '吉林', value: randomData()}, {name: '福建', value: randomData()},
+            {name: '贵州', value: randomData()}, {name: '广东', value: randomData()},
+            {name: '青海', value: randomData()}, {name: '西藏', value: randomData()},
+            {name: '四川', value: randomData()}, {name: '宁夏', value: randomData()},
+            {name: '海南', value: randomData()}, {name: '台湾', value: randomData()},
+            {name: '香港', value: randomData()}, {name: '澳门', value: randomData()}
+        ];
+        var optionMap = {
+            backgroundColor: '#ffffff',
+            title: {
+                show:false,
+                text: '全国用户分布',
+                subtext: ''
+                // x: 'center'
+            },
+            tooltip: {
+                trigger: 'item'
+            },
+            // toolbox:{
+            //     feature:{
+            //         myTool1:{
+            //             show:true,
+            //             title:'查看具体省份',
+            //             icon:'image://../static/images/search.png',
+            //             onclick:function () {
+            //                 alert("还没写完");
+            //             }
+            //         }
+            //     }
+            // },
+            //左侧小导航图标
+            visualMap: {
+                show: true,
+                x: 'left',
+                y: 'center',
+                splitList: [
+                    {start: 500, end: 600}, {start: 400, end: 500},
+                    {start: 300, end: 400}, {start: 200, end: 300},
+                    {start: 100, end: 200}, {start: 0, end: 100},
+                ],
+                color: ['#5475f5', '#9feaa5', '#85daef', '#74e2ca', '#e6ac53', '#9fb5ea']
+            },
+            //配置属性
+            series: [{
+                name: '数据',
+                type: 'map',
+                mapType: 'china',
+                roam: true,
+                label: {
+                    normal: {
+                        show: true  //省份名称
+                    },
+                    emphasis: {
+                        show: false
+                    }
+                },
+                data: mydata  //数据
+            }]
+        };
+        //初始化echarts实例
+        var myChart = echarts.init(document.getElementById('measure-area-map'));
+        //使用制定的配置项和数据显示图表
+        myChart.setOption(optionMap);
+    }
+
+    function randomData() {
+        return Math.round(Math.random() * 500);
+    }
     $("#logout").click(function () {
         localStorage.clear();
         window.location.href='/jaundice';
     });
-    var mydata = [
-        {name: '北京',value: '100' },{name: '天津',value: randomData() },
-        {name: '上海',value: randomData() },{name: '重庆',value: randomData() },
-        {name: '河北',value: randomData() },{name: '河南',value: randomData() },
-        {name: '云南',value: randomData() },{name: '辽宁',value: randomData() },
-        {name: '黑龙江',value: randomData() },{name: '湖南',value: randomData() },
-        {name: '安徽',value: randomData() },{name: '山东',value: randomData() },
-        {name: '新疆',value: randomData() },{name: '江苏',value: randomData() },
-        {name: '浙江',value: randomData() },{name: '江西',value: randomData() },
-        {name: '湖北',value: randomData() },{name: '广西',value: randomData() },
-        {name: '甘肃',value: randomData() },{name: '山西',value: randomData() },
-        {name: '内蒙古',value: randomData() },{name: '陕西',value: randomData() },
-        {name: '吉林',value: randomData() },{name: '福建',value: randomData() },
-        {name: '贵州',value: randomData() },{name: '广东',value: randomData() },
-        {name: '青海',value: randomData() },{name: '西藏',value: randomData() },
-        {name: '四川',value: randomData() },{name: '宁夏',value: randomData() },
-        {name: '海南',value: randomData() },{name: '台湾',value: randomData() },
-        {name: '香港',value: randomData() },{name: '澳门',value: randomData() }
-    ];
-    var optionMap = {
-        backgroundColor: '#FFFFFF',
-        title: {
-            text: '全国地图大数据',
-            subtext: '',
-            x:'center'
-        },
-        tooltip : {
-            trigger: 'item'
-        },
-
-        //左侧小导航图标
-        visualMap: {
-            show : true,
-            x: 'left',
-            y: 'center',
-            splitList: [
-                {start: 500, end:600},{start: 400, end: 500},
-                {start: 300, end: 400},{start: 200, end: 300},
-                {start: 100, end: 200},{start: 0, end: 100},
-            ],
-            color: ['#5475f5', '#9feaa5', '#85daef','#74e2ca', '#e6ac53', '#9fb5ea']
-        },
-
-        //配置属性
-        series: [{
-            name: '数据',
-            type: 'map',
-            mapType: 'china',
-            roam: true,
-            label: {
-                normal: {
-                    show: true  //省份名称
-                },
-                emphasis: {
-                    show: false
-                }
-            },
-            data:mydata  //数据
-        }]
-    };
-    //初始化echarts实例
-    var myChart = echarts.init(document.getElementById('container'));
-
-    //使用制定的配置项和数据显示图表
-    myChart.setOption(optionMap);
-
-    function randomData(){
-        return Math.round(Math.random()*500);
-    }
 </script>
-
 </body>
 </html>

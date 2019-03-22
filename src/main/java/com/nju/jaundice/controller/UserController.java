@@ -1,5 +1,6 @@
 package com.nju.jaundice.controller;
 
+import com.nju.jaundice.blservice.AdminBLService;
 import com.nju.jaundice.blservice.UserBLService;
 import com.nju.jaundice.entity.Baby;
 import com.nju.jaundice.util.Blood;
@@ -20,6 +21,8 @@ public class UserController {
 
     @Autowired
     private UserBLService userBLService;
+    @Autowired
+    private AdminBLService adminBLService;
 
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public @ResponseBody
@@ -29,8 +32,12 @@ public class UserController {
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public @ResponseBody
-    ResultMessage login(String telephone,String password){
-        return userBLService.login(telephone,password);
+    ResultMessage login(String username,String password){
+        if(username.equals("admin")){
+            return adminBLService.adminLogin(username,password);
+        }else {
+            return userBLService.login(username, password);
+        }
     }
 
     @RequestMapping(value = "/complete",method = RequestMethod.POST)

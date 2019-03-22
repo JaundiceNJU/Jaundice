@@ -161,7 +161,7 @@
                     <div role="form" class="login-form">
                         <div class="form-group">
                             <label class="sr-only" for="form-username">Username</label>
-                            <input type="text" name="form-username" placeholder="Username..." class="form-username form-control" id="form-username" value="admin">
+                            <input type="text" name="form-username" placeholder="Username..." class="form-username form-control" id="form-username" value="">
                         </div>
                         <div class="form-group">
                             <label class="sr-only" for="form-password">Password</label>
@@ -176,8 +176,11 @@
 </div>
 <script>
     $(document).ready(function () {
-       if(localStorage.getItem('username')!=undefined){
-           location.href='/home';
+        var username=localStorage.getItem('username');
+       if(username!=undefined){
+           if(username==='admin'){
+               location.href='/home';
+           }
        }
     });
     $("#login").click(function(){
@@ -187,7 +190,7 @@
             alert("请输入用户名和密码")
         }else {
             $.ajax({
-                url: "/adminLogin",
+                url: "/login",
                 type: "POST",
                 cache: false,
                 async: false,
@@ -197,11 +200,14 @@
                 },
                 success: function(data){    //    alert后台返回的参数
                     // alert(data);
-                    if(data==="SUCCESS"){
+                    if(data==="ADMINLOGIN"){
                         // alert("即将跳转至主页");
                         localStorage.setItem("username",username);
                         window.location.href="/home";
-                    }else{
+                    }else if(data==='USERLOGIN'){
+                        localStorage.setItem('username',username);
+                        window.location.href="/userHome";
+                    }else {
                         alert("登录无效，请重试");
                         window.location.href="/jaundice"
                     }

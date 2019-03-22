@@ -27,7 +27,7 @@ public class MeasureController {
 
     @RequestMapping(value = "/getMeasureByUser",method = RequestMethod.POST)
     public @ResponseBody
-    List<Measure> getMeasureListByUsername(String username){
+    List<MeasureVO> getMeasureListByUsername(String username){
         return measureBLService.getMeasureListByUsername(username);
     }
 

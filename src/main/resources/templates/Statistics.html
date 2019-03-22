@@ -11,9 +11,10 @@
     <script src="https://unpkg.com/bootstrap-table@1.13.4/dist/bootstrap-table-locale-all.min.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.13.4/dist/extensions/export/bootstrap-table-export.min.js"></script>
     <script src="https://unpkg.com/tableexport.jquery.plugin@1.10.1/tableExport.min.js"></script>
-    <script src="/js/jquery-3.3.1.min.js"></script>
-    <script src="/js/echarts.js"></script>
-    <script src="/js/china.js"></script>
+    <script src="/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/china.js" type="text/javascript" charset="utf-8"></script>
+    <script src="/js/province.js" type="text/javascript" charset="utf-8"></script>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <style>
         body{
@@ -29,6 +30,17 @@
         .pane-title{
             font-family: 华文楷体, serif;
             color: #000;
+        }
+        .back_btn{
+            position: absolute;
+            top: 60px;
+            font-size: 24px;
+            font-family: 华文楷体, serif;
+            cursor: pointer;
+            display: none;
+            left: 20px;
+            text-decoration: underline;
+            z-index: 1;
         }
     </style>
 </head>
@@ -95,11 +107,13 @@
                             </a>
                         </h4>
                     </div>
-                    <div id="collapseTwo" class="panel-collapse collapse">
+                    <div id="collapseTwo" class="panel-collapse collapse in">
                         <div class="panel-body" style="padding: 0">
                             <ul class="nav" style="text-align: center;font-family: 华文楷体, serif;font-size: 23px;">
                                 <li><a href="#measure-total" data-toggle="tab">数据总量</a></li>
                                 <li><a href="#measure-area" data-toggle="tab">地区分布</a></li>
+                                <li><a href="#week-and-age" data-toggle="tab">孕周/时间/均值</a></li>
+                                <li><a href="#fade-time" data-toggle="tab">孕周/消退/比例</a></li>
                             </ul>
                         </div>
                     </div>
@@ -121,6 +135,7 @@
                         <button id="search-detail-province" type="submit" class="btn btn-info btn-search glyphicon glyphicon-search" style="margin-top: -1px;"></button>
                     </span>
                 </div>
+                <a class="back_btn" id="back-to-china2">返回全国地图</a>
                 <div id="area-map" style="width:1000px;height: 600px;margin-left: 30px;"></div>
             </div>
             <div id="sex" class="tab-pane fade in active">
@@ -232,14 +247,23 @@
                 <div id="measure-rise" style="width: 800px;height: 450px;margin-left: 100px;"></div>
             </div>
             <div id="measure-area" class="tab-pane fade in active">
-                <h2 class="pane-title" style="display: inline-block">数据地区分布图</h2>
+                <h2 id="title-map" class="pane-title" style="display: inline-block">数据地区分布图</h2>
                 <div class="input-group"  style="width: 200px;top: 20px;display: -webkit-inline-box;float: right;margin-right: 180px;">
-                    <input type="text" class="form-control" placeholder="输入想要查看的省"/>
+                    <input id="search-pro" type="text" class="form-control" placeholder="输入想要查看的省"/>
                     <span class="input-group-btn">
                         <button id="search-detail-province-measure" type="submit" class="btn btn-info btn-search glyphicon glyphicon-search" style="margin-top: -1px;"></button>
                     </span>
                 </div>
+                <a class="back_btn" id="back-to-china">返回全国地图</a>
                 <div id="measure-area-map" style="width:1000px;height: 600px;margin-left: 30px;"></div>
+            </div>
+            <div id="week-and-age" class="tab-pane fade in active">
+                <h2 class="pane-title">孕周/出生天数黄疸均值</h2>
+                <div id="week-and-age-bar" style="width: 1100px;height: 600px;margin-left: 30px"></div>
+            </div>
+            <div id="fade-time" class="tab-pane fade in active">
+                <h2 class="pane-title">孕周/黄疸消退时间</h2>
+                <div id="fade-time-bar" style="width: 1100px;height: 600px;margin-left: 30px"></div>
             </div>
         </div>
     </div>
@@ -254,12 +278,32 @@
         initWeeks();
         initMeasureRise();
         initMeasureArea();
+        initWeekAndAgeBar();
+        initFadeTimeBar();
     };
     $("#search-detail-province").click(function () {
-        alert('还没写完');
+        // alert('还没写完');
+        var province=$("#search-pro").val();
+        if(province===''){
+            alert('请输入正确省名');
+            return;
+        }
+        creatProvince('辽宁','area-map');
     });
     $("#search-detail-province-measure").click(function () {
-        alert('也还没写完');
+        // alert('也还没写完');
+        var province=$("#search-pro").val();
+        if(province===''){
+            alert('请输入正确省名');
+            return;
+        }
+        creatProvince('辽宁','measure-area-map');
+    });
+    $("#back-to-china").click(function () {
+        initMeasureArea();
+    });
+    $("#back-to-china2").click(function () {
+        initArea();
     });
     function initPeopleRise() {
         var option={
@@ -287,6 +331,7 @@
         peopleRise.setOption(option);
     }
     function initArea() {
+        $("#back-to-china2").hide();
         var mydata = [
             {name: '北京', value: '100'}, {name: '天津', value: randomData()},
             {name: '上海', value: randomData()}, {name: '重庆', value: randomData()},
@@ -317,18 +362,6 @@
             tooltip: {
                 trigger: 'item'
             },
-            // toolbox:{
-            //     feature:{
-            //         myTool1:{
-            //             show:true,
-            //             title:'查看具体省份',
-            //             icon:'image://../static/images/search.png',
-            //             onclick:function () {
-            //                 alert("还没写完");
-            //             }
-            //         }
-            //     }
-            // },
             //左侧小导航图标
             visualMap: {
                 show: true,
@@ -362,6 +395,9 @@
         var myChart = echarts.init(document.getElementById('area-map'));
         //使用制定的配置项和数据显示图表
         myChart.setOption(optionMap);
+        myChart.on('click',function (param) {
+            creatProvince(param.name,'area-map')
+        })
     }
     function initSex() {
         var option = {
@@ -557,6 +593,8 @@
         measureRise.setOption(option);
     }
     function initMeasureArea() {
+        $("#back-to-china").hide();
+        $("#title-map").html("全国数据分布图");
         var mydata = [
             {name: '北京', value: '100'}, {name: '天津', value: randomData()},
             {name: '上海', value: randomData()}, {name: '重庆', value: randomData()},
@@ -587,18 +625,6 @@
             tooltip: {
                 trigger: 'item'
             },
-            // toolbox:{
-            //     feature:{
-            //         myTool1:{
-            //             show:true,
-            //             title:'查看具体省份',
-            //             icon:'image://../static/images/search.png',
-            //             onclick:function () {
-            //                 alert("还没写完");
-            //             }
-            //         }
-            //     }
-            // },
             //左侧小导航图标
             visualMap: {
                 show: true,
@@ -613,7 +639,7 @@
             },
             //配置属性
             series: [{
-                name: '数据',
+                name: '黄疸值',
                 type: 'map',
                 mapType: 'china',
                 roam: true,
@@ -632,8 +658,216 @@
         var myChart = echarts.init(document.getElementById('measure-area-map'));
         //使用制定的配置项和数据显示图表
         myChart.setOption(optionMap);
+        myChart.on('click',function (param) {
+            creatProvince(param.name,'measure-area-map');
+        })
     }
+    function initWeekAndAgeBar(){
+        var bar=echarts.init(document.getElementById('week-and-age-bar'));
+        var option = {
+            legend: {
+                textStyle:{
+                    fontSize:16,
+                    fontFamily:'华文楷体,serif'
+                }
+            },
+            tooltip: {
+                alwaysShowContent:true,
+                trigger:'item'
+            },
+            dataset: {
+                source: [
+                    ['怀孕周期', '小于28周', '28-37周(早产)', '37-42周(足月产)','大于42周(超期产)'],
+                    ['24小时内', 20.3, 12.4, 15.6, 6.4],
+                    ['2-3天', 222.3, 323.4, 243.3,213.4],
+                    ['4-6天', 133.4, 102.3, 98.4, 100],
+                    ['7-10天', 19.7,18.4, 20.3,30.2],
+                    ['>10天', 16.7,14.4, 12.3,13.2]
+                ]
+            },
+            xAxis: {
+                type: 'category',
+                name: '出生天数/天',
+                nameTextStyle:{
+                    color:'#000000',
+                    fontSize:18,
+                    fontWeight:500,
+                    fontFamily:'华文楷体,serif'
+                },
+                axisLabel:{
+                    color:'#000000',
+                    fontSize:18,
+                    fontWeight:500,
+                    fontFamily:'华文楷体,serif'
+                }
+            },
+            yAxis: {
+                name: '黄疸均值',
+                nameTextStyle:{
+                    color:'#000000',
+                    fontSize:18,
+                    fontWeight:500,
+                    fontFamily:'华文楷体,serif'
+                },
+                axisLabel:{
+                    color:'#000000',
+                    fontSize:18,
+                    fontWeight:500,
+                    fontFamily:'华文楷体,serif'
+                }
+            },
+            // Declare several bar series, each will be mapped
+            // to a column of dataset.source by default.
+            series: [
+                {type: 'bar'},
+                {type: 'bar'},
+                {type: 'bar'},
+                {type: 'bar'}
+            ]
+        };
+        bar.setOption(option);
+    }
+    function initFadeTimeBar(){
+        var bar=echarts.init(document.getElementById('fade-time-bar'));
+        var option = {
+            legend: {
+                textStyle:{
+                    fontSize:16,
+                    fontFamily:'华文楷体,serif'
+                }
+            },
+            tooltip: {
+                alwaysShowContent:true,
+                trigger:'item'
+            },
+            dataset: {
+                source: [
+                    ['怀孕周期', '小于28周', '28-37周(早产)', '37-42周(足月产)','大于42周(超期产)'],
+                    ['未出现', '2', '12.4', '78', '8'],
+                    ['7天内', '4', '19', '65', '12'],
+                    ['7-10天', '6', '24', '55.4', '24.6'],
+                    ['10-14天','10', '15.6', '46.4', '43.2'],
+                    ['>14天', '40', '12.4', '78', '8'],
+                    ['>28天','78','9','7','6']
+                ]
+            },
+            xAxis: {
+                type: 'category',
+                name: '消退时间',
+                nameTextStyle:{
+                    color:'#000000',
+                    fontSize:18,
+                    fontWeight:500,
+                    fontFamily:'华文楷体,serif'
+                },
+                axisLabel:{
+                    color:'#000000',
+                    fontSize:18,
+                    fontWeight:500,
+                    fontFamily:'华文楷体,serif'
+                }
+            },
+            yAxis: {
+                name: '占比',
+                nameTextStyle:{
+                    color:'#000000',
+                    fontSize:18,
+                    fontWeight:500,
+                    fontFamily:'华文楷体,serif'
+                },
+                axisLabel:{
+                    color:'#000000',
+                    fontSize:18,
+                    fontWeight:500,
+                    fontFamily:'华文楷体,serif'
+                }
+            },
+            series: [
+                {type: 'bar'},
+                {type: 'bar'},
+                {type: 'bar'},
+                {type: 'bar'}
+            ]
+        };
+        bar.setOption(option);
+    }
+    function creatProvince(name,mapID){
+        var pro = pyChinese(name);
+        if(pro===''){
+            return false;
+        }
+        $('#back-to-china').css('display','inline-block');
+        $('#back-to-china2').css('display','inline-block');
+        $('#title-map').html(name+'地区数据分布图');
+        var mydata = [
+            {name: '沈阳市', value: '100'}, {name: '大连市', value: randomData()},
+            {name: '鞍山市', value: randomData()}, {name: '抚顺市', value: randomData()},
+            {name: '本溪市', value: randomData()}, {name: '丹东市', value: randomData()},
+            {name: '锦州市', value: randomData()}, {name: '营口市', value: randomData()},
+            {name: '阜新市', value: randomData()}, {name: '辽阳市', value: randomData()},
+            {name: '盘锦市', value: randomData()}, {name: '铁岭市', value: randomData()},
+            {name: '朝阳市', value: randomData()}, {name: '葫芦岛市', value: randomData()}
+        ];
+        var childChart = echarts.init(document.getElementById(mapID));
+        var seriesdata = [{
+            name:'黄疸值',
+            type: 'map',
+            mapType: pro,
+            label: {
+                normal: {
+                    show: true
+                },
+                emphasis: {
+                    show: true
+                }
+            },
+            data:mydata,
+            itemStyle: {
+                normal: {
+                    borderColor: '#ccc',
+                    areaColor: '#ffffff'
+                },
+                emphasis: {
+                    areaColor: '#ccc',
+                    color:'#fff',
+                    borderWidth: 0,
+                    show:false
+                }
+            },
+            animation: false
+        }];
+        var option = {
+            title: {
+                show:false,
+                text: name,
+                left: 'center',
+                textStyle: {
+                    color: '#000'
+                },
+                top:30
+            },
+            visualMap:{
+                show: true,
+                x: 'left',
+                y: 'center',
+                splitList: [
+                    {start: 500, end: 600}, {start: 400, end: 500},
+                    {start: 300, end: 400}, {start: 200, end: 300},
+                    {start: 100, end: 200}, {start: 0, end: 100}
+                ],
+                color: ['#5475f5', '#9feaa5', '#85daef', '#74e2ca', '#e6ac53', '#9fb5ea']
+            },
+            tooltip:{
+                trigger:'item'
+            },
+            series: seriesdata
+        };
+        $.get('../static/json/'+pro+'.json', function(gdMap) {
+            echarts.registerMap(pro, gdMap);
+            childChart.setOption(option, true);
 
+        });
+    }
     function randomData() {
         return Math.round(Math.random() * 500);
     }

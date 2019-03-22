@@ -32,4 +32,9 @@ public class PageController {
         return "UserStatistics";
     }
 
+    @RequestMapping(value = "/userHome",method = RequestMethod.GET)
+    public String getUserHome(){
+        return "UserHome";
+    }
+
 }

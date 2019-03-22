@@ -5,5 +5,7 @@ public enum ResultMessage {
     FAIL,
     EXIST,
     NOTEXIST,
-    PASSERROR
+    PASSERROR,
+    ADMINLOGIN,
+    USERLOGIN
 }

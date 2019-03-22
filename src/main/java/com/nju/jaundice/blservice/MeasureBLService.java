@@ -12,7 +12,7 @@ public interface MeasureBLService {
 
     List<Measure> getMeasureListByTime();
 
-    List<Measure> getMeasureListByUsername(String username);
+    List<MeasureVO> getMeasureListByUsername(String username);
 
     List<MeasureVO> getMeasureList();
 

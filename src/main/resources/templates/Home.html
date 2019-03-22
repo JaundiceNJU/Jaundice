@@ -121,7 +121,6 @@
     </style>
     <div class="add_content">
         <!--<input type="text" class="cooperate-input" id="cooperate-email" placeholder="请输入邮箱进行验证">-->
-
         <div class="form-wrapper">
             <span class="label">手机号码:</span>
             <input type="text" class="add_input" id="add_tel" placeholder="请输入手机号">
@@ -170,7 +169,6 @@
             </div>
 
         </div>
-
         <div class="form-wrapper" style="margin-bottom: 20px;">
             <span class="label">出生日期:</span>
             <div class="input-group date form_date col-sm-5" data-date="" data-date-format="yyyy年MM月dd日" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd" style="float: left;margin-left: 2%;width: 200px;">
@@ -192,28 +190,22 @@
                 });
             </script>
         </div>
-
         <div class="form-wrapper">
             <span class="label">出生身高:</span>
             <input type="text" class="add_input" id="add_height" placeholder="请输入身高">
         </div>
-
         <div class="form-wrapper">
             <span class="label">出生体重:</span>
             <input type="text" class="add_input" id="add_weight" placeholder="请输入体重">
         </div>
-
         <div class="form-wrapper">
             <span class="label">出生地区:</span>
             <input type="text" class="add_input" id="add_area" placeholder="请输入出生地区">
         </div>
-
         <div class="form-wrapper">
             <span class="label">出生医院:</span>
             <input type="text" class="add_input" id="add_hospital" placeholder="请输入出生医院">
         </div>
-
-
     </div>
 
     <div class="add_buttons" style="margin-bottom: 5px">
@@ -306,12 +298,45 @@
         <th data-field="sex" data-sortable="true">宝宝性别</th>
         <th data-field="bornTime" data-sortable="true">出生时间</th>
         <th data-field="area" data-sortable="true">出生城市</th>
+        <th data-field="modify" data-sortable="false" data-formatter="generateBtn"></th>
     </tr>
     </thead>
 </table>
 
 <script>
 
+    function generateBtn(value ,row) {
+        return "<button class='btn' style='background: rgba(25,137,250,0.80);color: white;width: 40%;margin-left: 30%' onclick='modifyInfo("+JSON.stringify(row)+")'>修改信息</button>"
+    }
+    function modifyInfo(data) {
+        $(".button").css('color','white');
+        $(".add_item_bkg").css('display','block');
+        $(".add_hint").css('display','block');
+        $(".add_header").html('修改信息');
+        alert(JSON.stringify(data));
+
+        $("#add_tel").val(data.id);
+        $("#add_baby_name").val(data.nickname);
+        $("#add_week").val(data.week);
+        $("#add_height").val(data.height);
+        $("#add_weight").val(data.weight);
+        $("#add_area").val(data.area);
+        $("#add_hospital").val(data.hospital);
+        if(data.sex==='男'){
+            $("#sex input:radio[name='MaleOrFemale'][value='MALE']").attr('checked',true);
+        }else{
+            $("#sex input:radio[name='MaleOrFemale'][value='FEMALE']").attr('checked',true);
+        }
+
+        if(data.parent==='父亲'){
+            $("#parent input:radio[name='fatherOrMather'][value='FATHER']").attr('checked',true);
+        }else{
+            $("#parent input:radio[name='fatherOrMather'][value='MOTHER']").attr('checked',true);
+        }
+        $("#parent").val(data.parent);
+        $("#select_category").val(data.blood);
+        $("#birthday").val(data.bornTime);
+    }
     function addSure() {
         $(".add_item_bkg").css('display','none');
         $(".add_hint").css('display','none');

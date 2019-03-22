@@ -31,7 +31,7 @@ public class UserBL implements UserBLService {
             return ResultMessage.NOTEXIST;
         }else{
             if(baby.getPassword().equals(password)){
-                return ResultMessage.SUCCESS;
+                return ResultMessage.USERLOGIN;
             }else{
                 return ResultMessage.PASSERROR;
             }
@@ -90,6 +90,9 @@ public class UserBL implements UserBLService {
     @Override
     public ResultMessage saveNewUser(String tel, String babyName, int week, double height, double weight, String area, String hospital, String parent, String blood, String birthday,String sex) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+        if(birthday.contains("-")){
+            sdf=new SimpleDateFormat("yyyy-MM-dd");
+        }
         try {
             Role role=Role.valueOf(parent);
             Blood babyBlood=Blood.valueOf(blood);

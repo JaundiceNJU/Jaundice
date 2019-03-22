@@ -14,12 +14,7 @@ public class AdminController {
     @Autowired
     private AdminBLService adminBLService;
 
-    @RequestMapping(value = "/adminLogin",method = RequestMethod.POST)
-    public @ResponseBody
-    ResultMessage adminLogin(String username,String password){
-        System.out.println("username:"+username+", password:"+password);
-        return adminBLService.adminLogin(username,password);
-    }
+
 
     @RequestMapping(value = "/loginPage",method = RequestMethod.GET)
     public String adminLoginPage(){

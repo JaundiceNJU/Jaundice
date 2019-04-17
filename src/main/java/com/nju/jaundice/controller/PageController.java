@@ -9,7 +9,12 @@ public class PageController {
 
     @RequestMapping(value = "/jaundice",method = RequestMethod.GET)
     public String getIntroducePage(){
-        return "Login";
+        return "user/Login";
+    }
+
+    @RequestMapping(value = "/signUp", method = RequestMethod.GET)
+    public String getRegisterPage(){
+        return "user/Register";
     }
 
     @RequestMapping(value = "/home",method = RequestMethod.GET)
@@ -36,5 +41,11 @@ public class PageController {
     public String getUserHome(){
         return "UserHome";
     }
+
+    @RequestMapping(value = "/personal", method = RequestMethod.GET)
+    public String getPersonalPage(){
+        return "PersonalPage";
+    }
+
 
 }

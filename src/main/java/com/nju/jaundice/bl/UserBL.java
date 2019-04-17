@@ -88,6 +88,15 @@ public class UserBL implements UserBLService {
     }
 
     @Override
+    public BabyVO getOneUserInfo(String username) {
+        Baby baby=babyDao.find(username);
+        if(baby!=null){
+            return new BabyVO(baby);
+        }
+        return null;
+    }
+
+    @Override
     public ResultMessage saveNewUser(String tel, String babyName, int week, double height, double weight, String area, String hospital, String parent, String blood, String birthday,String sex) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
         if(birthday.contains("-")){

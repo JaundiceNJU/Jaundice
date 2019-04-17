@@ -53,7 +53,7 @@ public interface UserBLService {
      */
     ArrayList<BabyVO> getUserInfoList();
 
-
+    BabyVO getOneUserInfo(String username);
     ResultMessage saveNewUser(String tel,String babyName,int week,double height,double weight,String area,String hospital,String parent,String blood,String birthday,String sex);
 
     ResultMessage deleteUser(String[] tel);

@@ -49,12 +49,21 @@ public class BabyVO {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         this.id=baby.getId();
         this.password=baby.getPassword();
-        this.parent=baby.getParent().getChinese_name();
+        if(baby.getParent()!=null){
+            this.parent=baby.getParent().getChinese_name();
+        }
+
         this.nickname=baby.getNickname();
-        this.sex=baby.getSex().getToChinese();
+        if(baby.getSex()!=null){
+            this.sex=baby.getSex().getToChinese();
+        }
         this.week=baby.getWeek();
-        this.blood=baby.getBlood().toString();
-        this.bornTime=formatter.format(baby.getBornTime());
+        if(baby.getBlood()!=null){
+            this.blood=baby.getBlood().toString();
+        }
+        if(baby.getBornTime()!=null){
+            this.bornTime=formatter.format(baby.getBornTime());
+        }
         this.height=baby.getHeight();
         this.weight=baby.getWeight();
         this.area=baby.getArea();

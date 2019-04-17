@@ -53,6 +53,12 @@ public class UserController {
         return userBLService.getUserInfoList();
     }
 
+    @RequestMapping(value = "/getOneUserInfo", method = RequestMethod.POST)
+    public @ResponseBody
+    BabyVO getOneUserInfo(String username){
+        return userBLService.getOneUserInfo(username);
+    }
+
     @RequestMapping(value = "/saveNewUser",method = RequestMethod.POST)
     public @ResponseBody ResultMessage saveNewUser(String tel,String babyName,int week,double height,double weight,String area,String hospital,String parent,String blood,String birthday,String sex){
         return userBLService.saveNewUser(tel, babyName, week, height, weight, area, hospital, parent, blood, birthday, sex);

@@ -19,32 +19,28 @@ public class PageController {
 
     @RequestMapping(value = "/home",method = RequestMethod.GET)
     public String getHomePage(){
-        return "Home";
+        return "admin_page/Home";
     }
 
     @RequestMapping(value = "/data",method = RequestMethod.GET)
     public String getData(){
-        return "Data";
+        return "admin_page/Data";
     }
 
     @RequestMapping(value = "/statistics",method = RequestMethod.GET)
     public String getStatistics(){
-        return "Statistics";
+        return "admin_page/Statistics";
     }
 
-    @RequestMapping(value = "/userStatistics",method = RequestMethod.GET)
-    public String getUserStatistics(){
-        return "UserStatistics";
-    }
 
     @RequestMapping(value = "/userHome",method = RequestMethod.GET)
     public String getUserHome(){
-        return "UserHome";
+        return "user_page/UserHome";
     }
 
     @RequestMapping(value = "/personal", method = RequestMethod.GET)
     public String getPersonalPage(){
-        return "PersonalPage";
+        return "user_page/PersonalPage";
     }
 
 

@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
     <script src="/js/bootstrap-datetimepicker.min.js"></script>
     <script type="text/javascript" src="/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="/js/echarts.min.js" type="text/javascript" charset="utf-8"></script>
 
     <title>主页</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -57,9 +58,6 @@
 
 <div class="add_item_bkg"></div>
 <div class="add_hint">
-    <!--<div class="addressdialog-close">-->
-
-    <!--</div>-->
     <div class="add_header">
         新增用户
     </div>
@@ -115,9 +113,6 @@
         .radio-inline{
             margin-left: 20px;
         }
-
-
-
     </style>
     <div class="add_content">
         <!--<input type="text" class="cooperate-input" id="cooperate-email" placeholder="请输入邮箱进行验证">-->
@@ -215,8 +210,6 @@
     </div>
 
 </div>
-
-
 <style>
 
     .add_buttons{
@@ -274,7 +267,6 @@
         width: 95%;
     }
 </style>
-
 <table
         id="table"
         data-detail-view="true"
@@ -293,7 +285,7 @@
     <thead>
     <tr>
         <th data-field="state" data-checkbox="true"></th>
-        <th data-field="id" data-sortable="true">手机号</th>
+        <th data-field="id" data-sortable="true" data-formatter="generateIdPush">手机号</th>
         <th data-field="nickname" data-sortable="true">宝宝名称</th>
         <th data-field="sex" data-sortable="true">宝宝性别</th>
         <th data-field="bornTime" data-sortable="true">出生时间</th>
@@ -302,11 +294,58 @@
     </tr>
     </thead>
 </table>
+<!--<div id="change-graph-bg" style="width: 100%;height: 100%;">-->
+    <div id="measure-change" style="width: 800px;height: 450px;margin-left: auto;margin-right: auto;"></div>
+<!--</div>-->
 
 <script>
 
     function generateBtn(value ,row) {
         return "<button class='btn' style='background: rgba(25,137,250,0.80);color: white;width: 40%;margin-left: 30%' onclick='modifyInfo("+JSON.stringify(row)+")'>修改信息</button>"
+    }
+    function generateIdPush(value, row){
+        return "<a href='#' id='"+value+"' style='cursor: pointer' onclick='showMeasureChange("+value+")'>"+value+"</a>"
+    }
+    function showMeasureChange(id) {
+        $.ajax({
+            url:'/getMeasureByUser',
+            type:'POST',
+            data:{
+                username:id
+            },
+            success:function (data) {
+                generateChangeGraph(data);
+            },
+            error:function (xml,status,error) {
+                console.log(xml+" "+status.state+" "+error)
+                alert("服务器连接失败,请重试")
+            }
+        })
+    }
+    function generateChangeGraph(data) {
+        var option={
+            title:{
+                show:false,
+                text:'测量值变化观察曲线'
+            },
+            tooltip:{
+                show:true
+            },
+            xAxis: {
+                type: 'category',
+                data: ['2018-10','2018-11','2018-12', '2019-1', '2019-2', '2019-3']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                data: [100, 200, 260, 370, 440, 490],
+                type: 'line',
+                smooth:true
+            }]
+        };
+        var peopleRise=echarts.init(document.getElementById('measure-change'));
+        peopleRise.setOption(option);
     }
     function modifyInfo(data) {
         $(".button").css('color','white');
@@ -353,9 +392,6 @@
         var blood=$("#select_category option:checked").val();
         var birthday=$("#birthday").val();
 
-        // alert("sex "+sex);
-        // alert("blood "+blood);
-        // alert("parent "+parent);
         $.ajax({
             type:'POST',
             url:'/saveNewUser',
@@ -426,7 +462,6 @@
         $(".add_hint").css('display','block');
     }
 
-
     var $table=$('#table');
     var $button = $('#deleteButton');
 
@@ -442,14 +477,11 @@
                         data:data
                     });
                 });
-
-
             },
             error:function (data) {
                 alert("fail");
             }
         });
-
         // $button.click(function () {
         //     var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
         //         return row.id

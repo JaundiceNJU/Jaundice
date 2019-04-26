@@ -261,20 +261,22 @@
         var blood=$("#select_category option:checked").val();
         var birthday=$("#birthday").val();
         $.ajax({
+            // String telephone, Role parent, String nickname, Sex sex, int week, Blood blood,
+            // Date bornTime, double height, double weight, String area, String hospital
             type:'POST',
-            url:'/saveNewUser',
+            url:'/complete',
             data:{
-                tel:tel,
-                babyName:babyName,
+                telephone:tel,
+                parent:parent,
+                nickname:babyName,
+                sex:sex,
                 week:week,
+                blood:blood,
+                bornTime:birthday,
                 height:height,
                 weight:weight,
                 area:area,
-                hospital:hospital,
-                parent:parent,
-                blood:blood,
-                birthday:birthday,
-                sex:sex
+                hospital:hospital
             },
             success:function (data) {
                 if(data==="SUCCESS"){
@@ -288,6 +290,10 @@
             }
         })
     }
+    $("#logout").click(function () {
+        localStorage.clear();
+        window.location.href='/jaundice';
+    });
 </script>
 </body>
 </html>

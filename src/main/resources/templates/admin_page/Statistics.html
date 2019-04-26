@@ -130,7 +130,7 @@
             <div id="area" class="tab-pane fade in active">
                 <h2 class="pane-title" style="display: inline-block">婴儿地区分布图</h2>
                 <div class="input-group"  style="width: 200px;top: 20px;display: -webkit-inline-box;float: right;margin-right: 180px;">
-                    <input type="text" class="form-control" placeholder="输入想要查看的省"/>
+                    <input type="text"  class="form-control search-pro" placeholder="输入想要查看的省"/>
                     <span class="input-group-btn">
                         <button id="search-detail-province" type="submit" class="btn btn-info btn-search glyphicon glyphicon-search" style="margin-top: -1px;"></button>
                     </span>
@@ -249,7 +249,7 @@
             <div id="measure-area" class="tab-pane fade in active">
                 <h2 id="title-map" class="pane-title" style="display: inline-block">数据地区分布图</h2>
                 <div class="input-group"  style="width: 200px;top: 20px;display: -webkit-inline-box;float: right;margin-right: 180px;">
-                    <input id="search-pro" type="text" class="form-control" placeholder="输入想要查看的省"/>
+                    <input type="text" class="form-control search-pro" placeholder="输入想要查看的省"/>
                     <span class="input-group-btn">
                         <button id="search-detail-province-measure" type="submit" class="btn btn-info btn-search glyphicon glyphicon-search" style="margin-top: -1px;"></button>
                     </span>
@@ -283,7 +283,8 @@
     };
     $("#search-detail-province").click(function () {
         // alert('还没写完');
-        var province=$("#search-pro").val();
+        var province=$(".search-pro").val();
+        // alert("province:"+province);
         if(province===''){
             alert('请输入正确省名');
             return;
@@ -292,7 +293,8 @@
     });
     $("#search-detail-province-measure").click(function () {
         // alert('也还没写完');
-        var province=$("#search-pro").val();
+        var province=$(".search-pro").val();
+        // alert("province:"+province);
         if(province===''){
             alert('请输入正确省名');
             return;
@@ -862,7 +864,7 @@
             },
             series: seriesdata
         };
-        $.get('../static/json/'+pro+'.json', function(gdMap) {
+        $.get('/json/'+pro+'.json', function(gdMap) {
             echarts.registerMap(pro, gdMap);
             childChart.setOption(option, true);
 

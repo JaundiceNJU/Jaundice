@@ -11,6 +11,10 @@
     <script src="https://unpkg.com/bootstrap-table@1.13.4/dist/bootstrap-table-locale-all.min.js"></script>
     <script src="https://unpkg.com/bootstrap-table@1.13.4/dist/extensions/export/bootstrap-table-export.min.js"></script>
     <script src="https://unpkg.com/tableexport.jquery.plugin@1.10.1/tableExport.min.js"></script>
+
+    <link rel="stylesheet" href="/css/bootstrap-datetimepicker.min.css">
+    <script src="/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 </head>
 <body>
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="margin:0;font-size: 23px;font-family: 华文楷体, serif;">
@@ -98,10 +102,10 @@
     <button type="button" id="deleteButton" class="btn button" onclick="deleteData()" style="color: white">删 除</button>
     <button type="button" id="addButton" class="btn button" onclick="showAddHint()">添 加</button>
 </div>
+<!--data-detail-formatter="detailFormatter" 暂时不需要详细显示-->
 <table
         id="table"
         data-detail-view="true"
-        data-detail-formatter="detailFormatter"
         data-search="true"
         data-trim-on-search="true"
         data-locale="zh-CN"
@@ -115,9 +119,11 @@
     <thead>
     <tr>
         <th data-field="state" data-checkbox="true"></th>
-        <th data-field="baby" data-sortable="true">用户手机号</th>
-        <th data-field="ice_lesion" data-sortable="true">黄疸值</th>
         <th data-field="date" data-sortable="true">测量时间</th>
+        <!--<th data-field="baby" data-sortable="true">用户手机号</th>-->
+        <th data-field="ice_lesion" data-sortable="true">黄疸值</th>
+        <th data-field="weight" data-sortable="true">实时体重(kg)</th>
+        <th data-field="height" data-sortable="true">实时身长(cm)</th>
         <th data-field="isExceed" data-sortable="true">是否超标</th>
     </tr>
     </thead>
@@ -128,7 +134,7 @@
 
     <!--</div>-->
     <div class="add_header">
-        新增用户
+        新增测量数据
     </div>
     <style>
         .add_content{
@@ -191,7 +197,7 @@
         <div class="form-wrapper" style="margin-bottom: 20px;">
             <span class="label">测量时间(不填默认现在):</span>
             <div class="input-group date form_date col-sm-5" data-date="" data-date-format="yyyy年MM月dd日" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd" style="float: left;margin-left: 2%;width: 200px;">
-                <input class="form-control" id="birthday" size="16" type="text" value="" readonly style="background-color: white;height: 30px;">
+                <input class="form-control" id="measure-time" size="16" type="text" value="" readonly style="background-color: white;height: 30px;">
                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
             <input type="hidden" id="dtp_input1" value="" /><br/>
@@ -257,6 +263,37 @@
     function addSure() {
         $(".add_item_bkg").css('display','none');
         $(".add_hint").css('display','none');
+
+        var tel=$("#add_tel").val();
+        var ice_lesion=$("#add_lesion").val();
+        var measure_time=$("#measure-time").val();
+        var height=$("#add_height").val();
+        var weight=$("#add_weight").val();
+        var diet=$("#add_diet").val();
+
+        $.ajax({
+            type:'POST',
+            url:'/saveNewData',
+            data:{
+                tel:localStorage.getItem("username"),
+                ice_lesion:ice_lesion,
+                measure_time:measure_time,
+                height:height,
+                weight:weight,
+                diet:diet
+            },
+            success:function (data) {
+                // alert(data);
+                if(data==="SUCCESS"){
+                    location.reload();
+                }else{
+                    alert("出错了");
+                }
+            },
+            error:function (data) {
+                alert("出错了");
+            }
+        })
     }
     function showAddHint() {
         $(".button").css('color','white');

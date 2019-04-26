@@ -56,15 +56,19 @@ public class UserBL implements UserBLService {
     }
 
     @Override
-    public ResultMessage completeInfo(String telephone, Role parent, String nickname, Sex sex, int week, Blood blood, Date bornTime,double height,double weight,String area,String hospital) {
+    public ResultMessage completeInfo(String telephone, String parent, String nickname, String sex, int week, String blood, String bornTime,double height,double weight,String area,String hospital) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+        if(bornTime.contains("-")){
+            sdf=new SimpleDateFormat("yyyy-MM-dd");
+        }
         try{
             Baby baby=babyDao.find(telephone);
-            baby.setParent(parent);
+            baby.setParent(Role.valueOf(parent));
             baby.setNickname(nickname);
-            baby.setSex(sex);
+            baby.setSex(Sex.valueOf(sex));
             baby.setWeek(week);
-            baby.setBlood(blood);
-            baby.setBornTime(bornTime);
+            baby.setBlood(Blood.valueOf(blood));
+            baby.setBornTime(sdf.parse(bornTime));
             baby.setHeight(height);
             baby.setWeight(weight);
             baby.setArea(area);

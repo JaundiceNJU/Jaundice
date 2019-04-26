@@ -38,8 +38,8 @@ public class MeasureController {
 
     @RequestMapping(value = "/saveNewData",method = RequestMethod.POST)
     public @ResponseBody
-    ResultMessage saveNewData(String tel, double ice_lesion,String messure_time,double height,double weight,String diet){
-        return measureBLService.saveNewData(tel,ice_lesion,messure_time,height,weight,diet);
+    ResultMessage saveNewData(String tel, double ice_lesion,String measure_time,double height,double weight,String diet){
+        return measureBLService.saveNewData(tel,ice_lesion,measure_time,height,weight,diet);
     }
 
     @RequestMapping(value = "/deleteData",method = RequestMethod.POST)

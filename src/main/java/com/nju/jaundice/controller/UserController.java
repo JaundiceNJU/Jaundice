@@ -42,8 +42,8 @@ public class UserController {
 
     @RequestMapping(value = "/complete",method = RequestMethod.POST)
     public @ResponseBody
-    ResultMessage completeInfo(String telephone, Role parent, String nickname, Sex sex, int week, Blood blood,
-                                Date bornTime, double height, double weight, String area, String hospital){
+    ResultMessage completeInfo(String telephone, String parent, String nickname, String sex, int week, String blood,
+                                String bornTime, double height, double weight, String area, String hospital){
         return userBLService.completeInfo(telephone,parent,nickname,sex,week,blood,bornTime,height,weight,area,hospital);
     }
 

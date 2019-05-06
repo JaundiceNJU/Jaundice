@@ -43,8 +43,8 @@ public interface UserBLService {
      * @param hospital 出生医院
      * @return 更新结果
      */
-    ResultMessage completeInfo(String telephone, Role parent, String nickname, Sex sex, int week, Blood blood,
-                               Date bornTime, double height, double weight, String area, String hospital);
+    ResultMessage completeInfo(String telephone, String parent, String nickname, String sex, int week, String blood,
+                               String bornTime, double height, double weight, String area, String hospital);
 
 
     /**
@@ -53,6 +53,7 @@ public interface UserBLService {
      */
     ArrayList<BabyVO> getUserInfoList();
 
+    BabyVO getOneUserInfo(String username);
 
     ResultMessage saveNewUser(String tel,String babyName,int week,double height,double weight,String area,String hospital,String parent,String blood,String birthday,String sex);
 

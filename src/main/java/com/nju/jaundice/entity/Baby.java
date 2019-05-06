@@ -35,6 +35,8 @@ public class Baby {
 
     private Blood blood;//血型
 
+    private Date registerTime;//用户注册时间
+
     private Date bornTime;//出生时间
 
     private double height;//出生身长
@@ -45,8 +47,9 @@ public class Baby {
 
     private String hospital;//出生医院
 
-    public Baby(String telephone,String password){
+    public Baby(String telephone,String password,Date registerTime){
         this.id=telephone;
         this.password=password;
+        this.registerTime=registerTime;
     }
 }

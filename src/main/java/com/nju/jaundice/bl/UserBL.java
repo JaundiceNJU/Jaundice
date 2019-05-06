@@ -31,7 +31,7 @@ public class UserBL implements UserBLService {
             return ResultMessage.NOTEXIST;
         }else{
             if(baby.getPassword().equals(password)){
-                return ResultMessage.SUCCESS;
+                return ResultMessage.USERLOGIN;
             }else{
                 return ResultMessage.PASSERROR;
             }
@@ -45,7 +45,7 @@ public class UserBL implements UserBLService {
             if(baby!=null){
                 return ResultMessage.EXIST;
             }else{
-                Baby newBaby=new Baby(telephone,password);
+                Baby newBaby=new Baby(telephone,password,new Date());
                 babyDao.save(newBaby);
                 return ResultMessage.SUCCESS;
             }
@@ -56,15 +56,19 @@ public class UserBL implements UserBLService {
     }
 
     @Override
-    public ResultMessage completeInfo(String telephone, Role parent, String nickname, Sex sex, int week, Blood blood, Date bornTime,double height,double weight,String area,String hospital) {
+    public ResultMessage completeInfo(String telephone, String parent, String nickname, String sex, int week, String blood, String bornTime,double height,double weight,String area,String hospital) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+        if(bornTime.contains("-")){
+            sdf=new SimpleDateFormat("yyyy-MM-dd");
+        }
         try{
             Baby baby=babyDao.find(telephone);
-            baby.setParent(parent);
+            baby.setParent(Role.valueOf(parent));
             baby.setNickname(nickname);
-            baby.setSex(sex);
+            baby.setSex(Sex.valueOf(sex));
             baby.setWeek(week);
-            baby.setBlood(blood);
-            baby.setBornTime(bornTime);
+            baby.setBlood(Blood.valueOf(blood));
+            baby.setBornTime(sdf.parse(bornTime));
             baby.setHeight(height);
             baby.setWeight(weight);
             baby.setArea(area);
@@ -88,15 +92,27 @@ public class UserBL implements UserBLService {
     }
 
     @Override
+    public BabyVO getOneUserInfo(String username) {
+        Baby baby=babyDao.find(username);
+        if(baby!=null){
+            return new BabyVO(baby);
+        }
+        return null;
+    }
+
+    @Override
     public ResultMessage saveNewUser(String tel, String babyName, int week, double height, double weight, String area, String hospital, String parent, String blood, String birthday,String sex) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy年MM月dd日");
+        if(birthday.contains("-")){
+            sdf=new SimpleDateFormat("yyyy-MM-dd");
+        }
         try {
             Role role=Role.valueOf(parent);
             Blood babyBlood=Blood.valueOf(blood);
             Sex babySex=Sex.valueOf(sex);
             System.err.print(role+" "+babyBlood+" "+babySex);
             Date date=sdf.parse(birthday);
-            Baby baby=new Baby(tel,initPsd,role,babyName,babySex,week,babyBlood,date,height,weight,area,hospital);
+            Baby baby=new Baby(tel,initPsd,role,babyName,babySex,week,babyBlood,new Date(),date,height,weight,area,hospital);
             babyDao.saveAndFlush(baby);
             return ResultMessage.SUCCESS;
         } catch (ParseException e) {

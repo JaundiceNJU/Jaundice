@@ -20,7 +20,7 @@ public class AdminBL implements AdminBLService {
             return ResultMessage.NOTEXIST;
         }
         if(admin.getPassword().equals(password)){
-            return ResultMessage.SUCCESS;
+            return ResultMessage.ADMINLOGIN;
         }else {
             return ResultMessage.PASSERROR;
         }

@@ -33,8 +33,13 @@ public class MeasureBL implements MeasureBLService {
     }
 
     @Override
-    public List<Measure> getMeasureListByUsername(String username) {
-        return measureDao.findByUsername(username);
+    public List<MeasureVO> getMeasureListByUsername(String username) {
+        List<Measure> measures= measureDao.findByUsername(username);
+        List<MeasureVO> vos=new ArrayList<>();
+        for(Measure m:measures){
+            vos.add(new MeasureVO(m));
+        }
+        return vos;
     }
 
     @Override

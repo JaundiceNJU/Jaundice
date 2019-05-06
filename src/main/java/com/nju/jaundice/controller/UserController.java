@@ -1,5 +1,6 @@
 package com.nju.jaundice.controller;
 
+import com.nju.jaundice.blservice.AdminBLService;
 import com.nju.jaundice.blservice.UserBLService;
 import com.nju.jaundice.entity.Baby;
 import com.nju.jaundice.util.Blood;
@@ -20,6 +21,8 @@ public class UserController {
 
     @Autowired
     private UserBLService userBLService;
+    @Autowired
+    private AdminBLService adminBLService;
 
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public @ResponseBody
@@ -29,14 +32,18 @@ public class UserController {
 
     @RequestMapping(value = "/login",method = RequestMethod.POST)
     public @ResponseBody
-    ResultMessage login(String telephone,String password){
-        return userBLService.login(telephone,password);
+    ResultMessage login(String username,String password){
+        if(username.equals("admin")){
+            return adminBLService.adminLogin(username,password);
+        }else {
+            return userBLService.login(username, password);
+        }
     }
 
     @RequestMapping(value = "/complete",method = RequestMethod.POST)
     public @ResponseBody
-    ResultMessage completeInfo(String telephone, Role parent, String nickname, Sex sex, int week, Blood blood,
-                                Date bornTime, double height, double weight, String area, String hospital){
+    ResultMessage completeInfo(String telephone, String parent, String nickname, String sex, int week, String blood,
+                                String bornTime, double height, double weight, String area, String hospital){
         return userBLService.completeInfo(telephone,parent,nickname,sex,week,blood,bornTime,height,weight,area,hospital);
     }
 
@@ -44,6 +51,12 @@ public class UserController {
     public @ResponseBody
     ArrayList<BabyVO> getUserInfo(){
         return userBLService.getUserInfoList();
+    }
+
+    @RequestMapping(value = "/getOneUserInfo", method = RequestMethod.POST)
+    public @ResponseBody
+    BabyVO getOneUserInfo(String username){
+        return userBLService.getOneUserInfo(username);
     }
 
     @RequestMapping(value = "/saveNewUser",method = RequestMethod.POST)

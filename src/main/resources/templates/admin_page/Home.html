@@ -294,11 +294,30 @@
     </tr>
     </thead>
 </table>
-<!--<div id="change-graph-bg" style="width: 100%;height: 100%;">-->
-    <div id="measure-change" style="width: 800px;height: 450px;margin-left: auto;margin-right: auto;"></div>
-<!--</div>-->
+<div id="change-graph-bg">
+    <div id="measure-change" style="width: 800px;height: 450px;"></div>
+    <button id="close-chart" class="btn btn-primary" style="float: right">关闭</button>
+</div>
+<style>
+    #change-graph-bg{
+        padding: 20px;
+        display:none;
+        background:white;
+        width: 60%;
+        z-index: 1010;
+        left: 20%;
+        top: 20%;
+        position: absolute;
+        box-shadow: 0 1px 2px rgba(0,0,0,.5);
+    }
+</style>
 
 <script>
+    $("#close-chart").click(function () {
+        $(".add_item_bkg").css('display','none');
+        $("#change-graph-bg").css('display','none');
+
+    });
 
     function generateBtn(value ,row) {
         return "<button class='btn' style='background: rgba(25,137,250,0.80);color: white;width: 40%;margin-left: 30%' onclick='modifyInfo("+JSON.stringify(row)+")'>修改信息</button>"
@@ -323,9 +342,12 @@
         })
     }
     function generateChangeGraph(data) {
+        $(".add_item_bkg").css('display','block');
+        $("#change-graph-bg").css('display','block');
+        dealDate(data)
         var option={
             title:{
-                show:false,
+                show:true,
                 text:'测量值变化观察曲线'
             },
             tooltip:{
@@ -347,12 +369,23 @@
         var peopleRise=echarts.init(document.getElementById('measure-change'));
         peopleRise.setOption(option);
     }
+    function dealDate(data) {
+        //处理数据，把横坐标和纵坐标分开
+        var time=[];
+        var lesion=[];
+        for (var measure in data){
+            time.push(measure.date);
+            lesion.push(measure.ice_lesion);
+        }
+        alert(JSON.stringify(time));
+        alert(JSON.stringify(lesion))
+
+    }
     function modifyInfo(data) {
         $(".button").css('color','white');
         $(".add_item_bkg").css('display','block');
         $(".add_hint").css('display','block');
         $(".add_header").html('修改信息');
-        //alert(JSON.stringify(data));
 
         $("#add_tel").val(data.id);
         $("#add_baby_name").val(data.nickname);
@@ -375,6 +408,38 @@
         $("#parent").val(data.parent);
         $("#select_category").val(data.blood);
         $("#birthday").val(data.bornTime);
+    }
+    function deleteBaby() {
+        var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
+            return row.id
+        });
+
+        if(ids.length===0){
+            alert("选择内容不能为空！")
+        }else{
+            $.ajax({
+                type:'POST',
+                url:'/deleteUser',
+                data:{
+                    tel:JSON.stringify(ids)
+                },
+                success:function (data) {
+                    if(data==="SUCCESS"){
+                        location.reload();
+                    }else{
+                        alert("出错了");
+                    }
+                },
+                error:function (data) {
+                    alert("出错了");
+                }
+            })
+        }
+
+    }
+    function addCancel() {
+        $(".add_item_bkg").css('display','none');
+        $(".add_hint").css('display','none');
     }
     function addSure() {
         $(".add_item_bkg").css('display','none');
@@ -409,7 +474,6 @@
                 sex:sex
             },
             success:function (data) {
-                // alert(data);
                 if(data==="SUCCESS"){
                     location.reload();
                 }else{
@@ -421,41 +485,6 @@
             }
         })
     }
-
-    function deleteBaby() {
-        var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
-            return row.id
-        });
-
-        if(ids.length===0){
-            alert("选择内容不能为空！")
-        }else{
-            $.ajax({
-                type:'POST',
-                url:'/deleteUser',
-                data:{
-                    tel:JSON.stringify(ids)
-                },
-                success:function (data) {
-                    if(data==="SUCCESS"){
-                        location.reload();
-                    }else{
-                        alert("出错了");
-                    }
-                },
-                error:function (data) {
-                    alert("出错了");
-                }
-            })
-        }
-
-    }
-
-    function addCancel() {
-        $(".add_item_bkg").css('display','none');
-        $(".add_hint").css('display','none');
-    }
-
     function showAddHint() {
         $(".button").css('color','white');
         $(".add_item_bkg").css('display','block');
@@ -464,9 +493,7 @@
 
     var $table=$('#table');
     var $button = $('#deleteButton');
-
     $(function() {
-
         $.ajax({
             type:'POST',
             url:'/getUserInfo',
@@ -482,16 +509,16 @@
                 alert("fail");
             }
         });
-        // $button.click(function () {
-        //     var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
-        //         return row.id
-        //     });
-        //     alert(JSON.stringify(ids));
-        //     $table.bootstrapTable('remove', {
-        //         field: 'id',
-        //         values: ids
-        //     })
-        // })
+        /*$button.click(function () {
+            var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
+                return row.id
+            });
+            alert(JSON.stringify(ids));
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            })
+        })*/
     });
 
     function convert(key) {
@@ -535,7 +562,6 @@
         }
         return name;
     }
-
     function detailFormatter(index, row) {
         var html = [];
         var i=1;

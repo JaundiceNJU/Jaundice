@@ -10,6 +10,8 @@ public interface StatisticsBLService {
     //总数增长曲线
     int[] userIncrease(int year);
 
+    Map<String,Integer> getBabyIncrease();
+
     //婴儿地区分布图(这个有点多，下次写
     Map<String,Integer> getLocation();
 

@@ -38,6 +38,13 @@ public class StatisticsController {
         return statisticsBLService.userIncrease(year);
     }
 
+    //已测试
+    //返回自系统上线以来每月用户注册数
+    @RequestMapping(value = "/getBabyIncrease",method = RequestMethod.GET)
+    public @ResponseBody Map<String,Integer> getBabyIncrease(){
+        return statisticsBLService.getBabyIncrease();
+    }
+
     //逻辑没写
     @RequestMapping(value = "/getLocation",method = RequestMethod.GET)
     public @ResponseBody

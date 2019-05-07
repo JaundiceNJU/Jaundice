@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class StatisticsBL implements StatisticsBLService {
@@ -49,6 +47,57 @@ public class StatisticsBL implements StatisticsBLService {
                 res[i-1]=babyDao.findByYear(sdf.parse(datestr1),sdf.parse(datestr2));
             } catch (ParseException e) {
                 e.printStackTrace();
+            }
+        }
+        return res;
+    }
+
+    @Override
+    public Map<String, Integer> getBabyIncrease() {
+        Map<String,Integer> res=new TreeMap<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String initDateStr="2018-12-01 00:00:00";
+        String currentDateStr=sdf.format(new Date());
+
+        int initYear=Integer.parseInt(initDateStr.split(" ")[0].split("-")[0]);
+        int currentYear=Integer.parseInt(currentDateStr.split(" ")[0].split("-")[0]);
+
+        int initMonth=Integer.parseInt(initDateStr.split(" ")[0].split("-")[1]);
+        int currentMonth=Integer.parseInt(currentDateStr.split(" ")[0].split("-")[1]);
+
+        String tempDate1="";
+        String tempDate2="";
+        DecimalFormat df=new DecimalFormat("00");
+
+        int init=1;
+        int current=12;
+        for(int i=initYear;i<=currentYear;i++) {
+            if(initYear==currentYear){
+                init=initMonth;
+                current=currentMonth;
+            }else if(i==initYear){
+                init=initMonth;
+                current=12;
+            }else if(i==currentYear){
+                init=1;
+                current=currentMonth;
+            }else{
+                init=1;
+                current=12;
+            }
+            for(int j=init;j<=current;j++){
+                tempDate1=i+"-"+df.format(j)+"-01 00:00:00";
+                if(j==12){
+                    tempDate2=(i+1)+"-01-01 00:00:00";
+                }else{
+                    tempDate2=i+"-"+df.format(j+1)+"-01 00:00:00";
+                }
+
+                try {
+                    res.put(i+"-"+df.format(j),babyDao.findByYear(sdf.parse(tempDate1),sdf.parse(tempDate2)));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return res;

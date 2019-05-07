@@ -12,7 +12,6 @@ public interface StatisticsBLService {
 
     Map<String,Integer> getBabyIncrease();
 
-    //婴儿地区分布图(这个有点多，下次写
     Map<String,Integer> getLocation();
 
     int[] getBabySex();

@@ -45,7 +45,8 @@ public interface BabyDao extends JpaRepository<Baby,String> {
     @Query(value = "select count(b) from Baby b where b.week>=?1 and b.week<?2")
     int getBabyWeek(int week1,int week2);
 
-
+    @Query(value = "select count(b) from Baby b where b.area like %?1%")
+    int getLocation(String area);
 
 
 }

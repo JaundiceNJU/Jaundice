@@ -45,11 +45,12 @@ public class StatisticsController {
         return statisticsBLService.getBabyIncrease();
     }
 
-    //逻辑没写
+    //已测试
+    //默认后端存储地区格式是xx省xx市xxxx
     @RequestMapping(value = "/getLocation",method = RequestMethod.GET)
     public @ResponseBody
     Map<String,Integer> getLocation(){
-        return null;
+        return statisticsBLService.getLocation();
     }
 
     //已测试
